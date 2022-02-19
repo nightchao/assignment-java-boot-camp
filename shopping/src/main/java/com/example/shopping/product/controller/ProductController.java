@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -101,7 +102,7 @@ public class ProductController {
             return "";
         }
 
-        SimpleDateFormat dateFor = new SimpleDateFormat("dd/MM/yyyy");
-        return dateFor.format(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+        return simpleDateFormat.format(date);
     }
 }

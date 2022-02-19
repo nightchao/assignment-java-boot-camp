@@ -22,24 +22,24 @@ public class ProductController {
 
     @GetMapping("")
     public SearchReponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
-        List<Product> list = productService.getListProduct(search);
-        if (list.isEmpty()) {
+        List<Product> listProduct = productService.getListProduct(search);
+        if (listProduct.isEmpty()) {
             return new SearchReponse(0, new ArrayList<>(1));
         }
 
         List<ListSearchItem> listSearch = new ArrayList<>(1);
-        ListSearchItem model;
-        for (Product product : list) {
-            model = new ListSearchItem();
-            model.setProductId(product.getProductId());
-            model.setName(product.getName());
-            model.setPrice(product.getPrice());
-            model.setDiscount(product.getDiscount());
-            model.setRating(product.getRating());
-            model.setRatingVote(product.getRatingVote());
-            model.setProvince(product.getProvince());
-            model.setEms(product.isEms());
-            listSearch.add(model);
+        ListSearchItem listSearchItem;
+        for (Product product : listProduct) {
+            listSearchItem = new ListSearchItem();
+            listSearchItem.setProductId(product.getProductId());
+            listSearchItem.setName(product.getName());
+            listSearchItem.setPrice(product.getPrice());
+            listSearchItem.setDiscount(product.getDiscount());
+            listSearchItem.setRating(product.getRating());
+            listSearchItem.setRatingVote(product.getRatingVote());
+            listSearchItem.setProvince(product.getProvince());
+            listSearchItem.setEms(product.isEms());
+            listSearch.add(listSearchItem);
         }
 
         int total = listSearch.size();

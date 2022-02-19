@@ -1,7 +1,9 @@
 package com.example.shopping;
 
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.db.ScmUser;
 import com.example.shopping.product.repo.ProductRepository;
+import com.example.shopping.product.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,12 +20,27 @@ public class ShoppingApplication {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ShoppingApplication.class, args);
     }
 
     @PostConstruct
     public void initData() {
+        addUserInit();
+        addProductInit();
+    }
+
+    private void addUserInit() {
+        ScmUser user = new ScmUser();
+        user.setUserId(65001);
+        user.setFullName("ไนท์ ป่ามะม่วง");
+        this.userRepository.save(user);
+    }
+
+    private void addProductInit() {
         List<Product> listDb = new ArrayList<>(1);
 
         Product product01 = new Product(1001, 100, 7878, 10000, 10, 30, false);
@@ -52,20 +69,20 @@ public class ShoppingApplication {
         product02.setProvince("Tak");
         listDb.add(product02);
 
-		Product product03 = new Product(1003, 50, 7880, 7000, 5, 14, false);
-		product03.setName("Chalawan ลูกใคร ผีบอก 003");
-		product03.setDescription("ใส่แล้วคล่องตัว เหมาะกับใส่ในบ้าน");
-		product03.setBrand("Chalawan Shoes");
-		product03.setBrandUrl("https://www.chalawan.com");
-		product03.setNote("เพิ่มเติม ทุกเพศทุกวัย Chalawan Shoes");
-		product03.setNoteUrl("https://www.chalawan.com/shoes/general");
-		product03.setDateExpiredPromotion(dateExpiredPromotion());
-		product03.setRating(5.0);
-		product03.setRatingVote(777);
-		product03.setProvince("Tak");
-		listDb.add(product03);
+        Product product03 = new Product(1003, 50, 7880, 7000, 5, 14, false);
+        product03.setName("Chalawan ลูกใคร ผีบอก 003");
+        product03.setDescription("ใส่แล้วคล่องตัว เหมาะกับใส่ในบ้าน");
+        product03.setBrand("Chalawan Shoes");
+        product03.setBrandUrl("https://www.chalawan.com");
+        product03.setNote("เพิ่มเติม ทุกเพศทุกวัย Chalawan Shoes");
+        product03.setNoteUrl("https://www.chalawan.com/shoes/general");
+        product03.setDateExpiredPromotion(dateExpiredPromotion());
+        product03.setRating(5.0);
+        product03.setRatingVote(777);
+        product03.setProvince("Tak");
+        listDb.add(product03);
 
-		Product product04 = new Product(1004, 300, 7880, 1000, 30, 30, true);
+        Product product04 = new Product(1004, 300, 7880, 1000, 30, 30, true);
         product04.setName("Kraithong สยบเข้ 001");
         product04.setDescription("ใส่แล้วมีพลัง มั่นใจในทุกเวลา");
         product04.setBrand("Kraithong Shoes");
@@ -76,9 +93,9 @@ public class ShoppingApplication {
         product04.setRating(5.0);
         product04.setRatingVote(555);
         product04.setProvince("Tak");
-		listDb.add(product04);
+        listDb.add(product04);
 
-        productRepository.saveAll(listDb);
+        this.productRepository.saveAll(listDb);
     }
 
     private Date dateExpiredPromotion() {

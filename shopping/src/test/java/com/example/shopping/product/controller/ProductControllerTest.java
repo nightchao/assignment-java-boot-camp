@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -56,7 +55,6 @@ class ProductControllerTest {
 
         // Act
         SearchReponse result = testRestTemplate.getForObject("/product?search=FI", SearchReponse.class);
-        System.out.println(result.getTotal());
 
         // Assert
         assertEquals(1, result.getTotal());
@@ -73,7 +71,6 @@ class ProductControllerTest {
 
         // Act
         SearchReponse result = testRestTemplate.getForObject("/product?search=OO", SearchReponse.class);
-        System.out.println(result.getTotal());
 
         // Assert
         assertEquals(0, result.getTotal());

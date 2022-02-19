@@ -1,6 +1,8 @@
 package com.example.shopping.product.service;
 
+import com.example.shopping.product.db.Basket;
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.repo.BasketRepository;
 import com.example.shopping.product.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,15 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private BasketRepository basketRepository;
+
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    public void setBasketRepository(BasketRepository basketRepository) {
+        this.basketRepository = basketRepository;
     }
 
     public List<Product> getListProduct(String search) {
@@ -25,7 +34,11 @@ public class ProductService {
     }
 
     public Product getProduct(int productId) {
-        Optional<Product> db = productRepository.findById(productId);
-        return db.orElse(null);
+        Optional<Product> product = productRepository.findById(productId);
+        return product.orElse(null);
+    }
+
+    public void saveBasket(Basket basket) {
+        this.basketRepository.save(basket);
     }
 }

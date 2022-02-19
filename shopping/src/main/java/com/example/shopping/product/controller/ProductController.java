@@ -1,14 +1,17 @@
 package com.example.shopping.product.controller;
 
+import com.example.shopping.product.db.Basket;
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.db.ScmUser;
 import com.example.shopping.product.exception.ProductNotFoundException;
-import com.example.shopping.product.model.DetailResponse;
-import com.example.shopping.product.model.ListSearchItem;
-import com.example.shopping.product.model.SearchResponse;
+import com.example.shopping.product.exception.UserNotFoundException;
+import com.example.shopping.product.model.*;
 import com.example.shopping.product.service.ProductService;
+import com.example.shopping.product.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +24,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("")
     public SearchResponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
@@ -104,5 +110,25 @@ public class ProductController {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         return simpleDateFormat.format(date);
+    }
+
+    @PostMapping("/basket")
+    public AddBasketResponse addProductToBasket(@Valid @RequestBody() AddBasketRequest input) {
+        ScmUser user = userService.getUser(input.getUserId());
+        if (user == null) {
+            throw new UserNotFoundException(input.getUserId());
+        }
+
+        Product product = productService.getProduct(input.getProductId());
+        if (product == null) {
+            throw new ProductNotFoundException(input.getProductId());
+        }
+
+        Basket basket = new Basket(user.getUserId(), product.getProductId());
+        basket.setQuantity(input.getQuantity());
+        basket.setSize(input.getSize());
+        productService.saveBasket(basket);
+
+        return new AddBasketResponse("Update Success");
     }
 }

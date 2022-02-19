@@ -1,10 +1,14 @@
 package com.example.shopping.product.controller;
 
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.db.ScmUser;
 import com.example.shopping.product.exception.ExceptionModel;
+import com.example.shopping.product.model.AddBasketRequest;
+import com.example.shopping.product.model.AddBasketResponse;
 import com.example.shopping.product.model.DetailResponse;
 import com.example.shopping.product.model.SearchResponse;
 import com.example.shopping.product.repo.ProductRepository;
+import com.example.shopping.product.repo.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,9 @@ class ProductControllerTest {
 
     @MockBean
     private ProductRepository productRepository;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("เรียก /product แล้วจะต้องได้ผลการค้นหา 2 record")
@@ -106,9 +113,68 @@ class ProductControllerTest {
         ExceptionModel exception = testRestTemplate.getForObject("/product/2", ExceptionModel.class);
 
         // Assert
-        String actualMessage = exception.getMessage();
         String expectedMessage = "productId 2 not found";
-        assertTrue(actualMessage.contains(expectedMessage));
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
+    void case06() {
+        // Arrange
+        ScmUser user = new ScmUser(11, "user name");
+        when(userRepository.findById(11)).thenReturn(Optional.of(user));
+
+        Product product = new Product(22, "product name");
+        product.setQuantity(33);
+        when(productRepository.findById(22)).thenReturn(Optional.of(product));
+
+        AddBasketRequest addBasketRequest = new AddBasketRequest(11, 22, 33);
+
+        // Act
+        AddBasketResponse result = testRestTemplate.postForObject("/product/basket", addBasketRequest, AddBasketResponse.class);
+
+        // Assert
+        assertEquals("Update Success", result.getMessage());
+    }
+
+    @Test
+    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี User not found")
+    void case07() {
+        // Arrange
+        when(userRepository.findById(11)).thenReturn(Optional.empty());
+
+        AddBasketRequest addBasketRequest = new AddBasketRequest(11, 22, 33);
+
+        // Act
+        ExceptionModel exception = testRestTemplate.postForObject("/product/basket", addBasketRequest, ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "User id: 11 not found";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
+    void case08() {
+        // Arrange
+        ScmUser user = new ScmUser(11, "user name");
+        when(userRepository.findById(11)).thenReturn(Optional.of(user));
+
+        when(productRepository.findById(22)).thenReturn(Optional.empty());
+
+        AddBasketRequest addBasketRequest = new AddBasketRequest(11, 22, 33);
+
+        // Act
+        ExceptionModel exception = testRestTemplate.postForObject("/product/basket", addBasketRequest, ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "productId 22 not found";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
     }
 }

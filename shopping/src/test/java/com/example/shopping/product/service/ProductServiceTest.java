@@ -1,6 +1,8 @@
 package com.example.shopping.product.service;
 
+import com.example.shopping.product.db.Basket;
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.repo.BasketRepository;
 import com.example.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,15 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private BasketRepository basketRepository;
 
     @Test
     void getListProduct() {
@@ -56,5 +60,26 @@ class ProductServiceTest {
         // Assert
         assertEquals("Cat 008", result01.getName());
         assertNull(result02);
+    }
+
+    @Test
+    void saveBasket() {
+        // Arrange
+        Basket basket = new Basket(11, 22);
+        basket.setQuantity(33);
+        when(basketRepository.save(any(Basket.class))).thenReturn(basket);
+
+        // Act
+        ProductService productService = new ProductService();
+        productService.setBasketRepository(basketRepository);
+        Basket basketTest = new Basket(11, 22);
+        basketTest.setQuantity(33);
+        productService.saveBasket(basketTest);
+
+        // Assert
+        assertNotNull(basketTest);
+        assertEquals(11, basketTest.getUserId());
+        assertEquals(22, basketTest.getProductId());
+        assertEquals(33, basketTest.getQuantity());
     }
 }

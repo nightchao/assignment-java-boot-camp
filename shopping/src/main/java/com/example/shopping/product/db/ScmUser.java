@@ -11,6 +11,15 @@ public class ScmUser {
 
     private String fullName;
 
+    public ScmUser() {
+
+    }
+
+    public ScmUser(int userId, String fullName) {
+        this.userId = userId;
+        this.fullName = fullName;
+    }
+
     public int getUserId() {
         return userId;
     }

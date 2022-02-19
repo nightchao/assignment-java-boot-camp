@@ -49,11 +49,9 @@ class ProductRepositoryTest {
 
         // Act
         Optional<Product> result01 = productRepository.findById(4001);
-        Optional<Product> result02 = productRepository.findById(4002);
 
         // Assert
         assertTrue(result01.isPresent());
         assertEquals("Chicken 003", result01.get().getName());
-        assertFalse(result02.isPresent());
     }
 }

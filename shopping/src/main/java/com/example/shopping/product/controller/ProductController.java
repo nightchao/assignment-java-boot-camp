@@ -5,7 +5,6 @@ import com.example.shopping.product.model.ListSearchItem;
 import com.example.shopping.product.model.SearchReponse;
 import com.example.shopping.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("")
-    public SearchReponse searchReponse(@RequestParam(required = false, defaultValue = "") String search) {
+    public SearchReponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
         List<Product> list = productService.getListProduct(search);
         if (list.isEmpty()) {
             return new SearchReponse(0, new ArrayList<>(1));

@@ -40,4 +40,20 @@ class ProductRepositoryTest {
         assertTrue(result.isPresent());
         assertEquals(6, result.get().size());
     }
+
+    @Test
+    void findById() {
+        // Arrange
+        Product product = new Product(4001, "Chicken 003");
+        productRepository.save(product);
+
+        // Act
+        Optional<Product> result01 = productRepository.findById(4001);
+        Optional<Product> result02 = productRepository.findById(4002);
+
+        // Assert
+        assertTrue(result01.isPresent());
+        assertEquals("Chicken 003", result01.get().getName());
+        assertFalse(result02.isPresent());
+    }
 }

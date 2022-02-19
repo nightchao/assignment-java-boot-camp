@@ -1,6 +1,9 @@
 package com.example.shopping.product.controller;
 
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.exception.ExceptionModel;
+import com.example.shopping.product.exception.ProductNotFoundException;
+import com.example.shopping.product.model.DetailResponse;
 import com.example.shopping.product.model.SearchReponse;
 import com.example.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -9,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -75,5 +81,35 @@ class ProductControllerTest {
         // Assert
         assertEquals(0, result.getTotal());
         assertTrue(result.getListSearch().isEmpty());
+    }
+
+    @Test
+    @DisplayName("ค้นหาข้อมูลรายละเอียดสินค้าโดยส่ง productId = 1 แล้วเจอสินค้าที่ชื่อว่า test name")
+    void case04() {
+        // Arrange
+        Product product = new Product(1, "test name");
+        when(productRepository.findById(1)).thenReturn(Optional.of(product));
+
+        // Act
+        DetailResponse result = testRestTemplate.getForObject("/product/1", DetailResponse.class);
+
+        // Assert
+        assertEquals("test name", result.getName());
+    }
+
+    @Test()
+    @DisplayName("ค้นหาข้อมูลรายละเอียดสินค้าโดยส่ง productId = 2 แล้วเจอไม่พบสินค้าจากนั้นส่ง JSON Object error กลับมา")
+    void case05() {
+        // Arrange
+        when(productRepository.findById(2)).thenReturn(Optional.empty());
+
+        // Act
+        ExceptionModel exception = testRestTemplate.getForObject("/product/2", ExceptionModel.class);
+
+        // Assert
+        String actualMessage = exception.getMessage();
+        String expectedMessage = "productId 2 not found";
+        assertTrue(actualMessage.contains(expectedMessage));
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
     }
 }

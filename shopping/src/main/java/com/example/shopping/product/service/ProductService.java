@@ -15,12 +15,17 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     public List<Product> getListProduct(String search) {
         Optional<List<Product>> list = productRepository.findByNameContainingIgnoreCase(search);
         return list.orElse(new ArrayList<>(1));
     }
 
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public Product getProduct(int productId) {
+        Optional<Product> db = productRepository.findById(productId);
+        return db.orElse(null);
     }
 }

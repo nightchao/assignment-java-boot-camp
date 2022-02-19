@@ -2,7 +2,6 @@ package com.example.shopping.product.service;
 
 import com.example.shopping.product.db.Product;
 import com.example.shopping.product.repo.ProductRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -12,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,5 +38,23 @@ class ProductServiceTest {
 
         // Assert
         assertEquals(2, result.size());
+    }
+
+    @Test
+    void getProduct() {
+        // Arrange
+        Product product = new Product(1, "Cat 008");
+        when(productRepository.findById(1)).thenReturn(Optional.of(product));
+        when(productRepository.findById(2)).thenReturn(Optional.empty());
+
+        // Act
+        ProductService productService = new ProductService();
+        productService.setProductRepository(productRepository);
+        Product result01 = productService.getProduct(1);
+        Product result02 = productService.getProduct(2);
+
+        // Assert
+        assertEquals("Cat 008", result01.getName());
+        assertNull(result02);
     }
 }

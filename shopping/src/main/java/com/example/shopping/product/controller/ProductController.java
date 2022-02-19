@@ -4,7 +4,7 @@ import com.example.shopping.product.db.Product;
 import com.example.shopping.product.exception.ProductNotFoundException;
 import com.example.shopping.product.model.DetailResponse;
 import com.example.shopping.product.model.ListSearchItem;
-import com.example.shopping.product.model.SearchReponse;
+import com.example.shopping.product.model.SearchResponse;
 import com.example.shopping.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +22,10 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("")
-    public SearchReponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
+    public SearchResponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
         List<Product> listProduct = productService.getListProduct(search);
         if (listProduct.isEmpty()) {
-            return new SearchReponse(0, new ArrayList<>(1));
+            return new SearchResponse(0, new ArrayList<>(1));
         }
 
         List<ListSearchItem> listSearch = new ArrayList<>(1);
@@ -44,7 +44,7 @@ public class ProductController {
         }
 
         int total = listSearch.size();
-        return new SearchReponse(total, listSearch);
+        return new SearchResponse(total, listSearch);
     }
 
     @GetMapping("/{productId}")

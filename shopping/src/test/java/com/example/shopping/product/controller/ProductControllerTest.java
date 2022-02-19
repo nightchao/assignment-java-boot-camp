@@ -2,9 +2,8 @@ package com.example.shopping.product.controller;
 
 import com.example.shopping.product.db.Product;
 import com.example.shopping.product.exception.ExceptionModel;
-import com.example.shopping.product.exception.ProductNotFoundException;
 import com.example.shopping.product.model.DetailResponse;
-import com.example.shopping.product.model.SearchReponse;
+import com.example.shopping.product.model.SearchResponse;
 import com.example.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class ProductControllerTest {
         when(productRepository.findByNameContainingIgnoreCase("")).thenReturn(Optional.of(listDb));
 
         // Act
-        SearchReponse result = testRestTemplate.getForObject("/product", SearchReponse.class);
+        SearchResponse result = testRestTemplate.getForObject("/product", SearchResponse.class);
 
         // Assert
         assertEquals(2, result.getTotal());
@@ -60,7 +59,7 @@ class ProductControllerTest {
         when(productRepository.findByNameContainingIgnoreCase("FI")).thenReturn(Optional.of(listDb));
 
         // Act
-        SearchReponse result = testRestTemplate.getForObject("/product?search=FI", SearchReponse.class);
+        SearchResponse result = testRestTemplate.getForObject("/product?search=FI", SearchResponse.class);
 
         // Assert
         assertEquals(1, result.getTotal());
@@ -76,7 +75,7 @@ class ProductControllerTest {
         when(productRepository.findByNameContainingIgnoreCase("OO")).thenReturn(Optional.of(listDb));
 
         // Act
-        SearchReponse result = testRestTemplate.getForObject("/product?search=OO", SearchReponse.class);
+        SearchResponse result = testRestTemplate.getForObject("/product?search=OO", SearchResponse.class);
 
         // Assert
         assertEquals(0, result.getTotal());

@@ -2,15 +2,15 @@ package com.example.shopping.product.model;
 
 import java.util.List;
 
-public class SearchReponse {
+public class SearchResponse {
 
     private int total;
     private List<ListSearchItem> listSearch;
 
-    public SearchReponse() {
+    public SearchResponse() {
     }
 
-    public SearchReponse(int total, List<ListSearchItem> listSearch) {
+    public SearchResponse(int total, List<ListSearchItem> listSearch) {
         this.total = total;
         this.listSearch = listSearch;
     }

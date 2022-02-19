@@ -69,7 +69,7 @@ public class ProductController {
         response.setRating(product.getRating());
         response.setRatingVote(product.getRatingVote());
         response.setWarranty(product.getWarranty());
-        response.setDateExpiredPromotion(convertDateToStr(product.getDateExpiredPromotion()));
+        response.setDateExpiredPromotion(convertDateToStr(product.getDateExpiredPromotionDb()));
         return response;
     }
 

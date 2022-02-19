@@ -141,7 +141,7 @@ public class Product {
         this.warranty = warranty;
     }
 
-    public Date getDateExpiredPromotion() {
+    public Date getDateExpiredPromotionDb() {
         return dateExpiredPromotion;
     }
 

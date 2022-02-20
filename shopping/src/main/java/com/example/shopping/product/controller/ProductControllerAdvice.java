@@ -1,5 +1,6 @@
 package com.example.shopping.product.controller;
 
+import com.example.shopping.product.exception.CheckoutProductNotFoundException;
 import com.example.shopping.product.exception.ExceptionModel;
 import com.example.shopping.product.exception.ProductNotFoundException;
 import com.example.shopping.product.exception.UserNotFoundException;
@@ -20,18 +21,22 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ProductControllerAdvice {
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel productNotFound(ProductNotFoundException e, HttpServletRequest req) {
+    private ExceptionModel getObjectMsg(String msg, HttpServletRequest req) {
         ExceptionModel exceptionData = new ExceptionModel();
         exceptionData.setStatus(HttpStatus.NOT_FOUND.value());
         exceptionData.setError(HttpStatus.NOT_FOUND.name());
-        exceptionData.setMessage(e.getMessage());
+        exceptionData.setMessage(msg);
         String path = req.getRequestURI();
         exceptionData.setPath(path);
         exceptionData.setTimestamp(new Date());
         return exceptionData;
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel productNotFound(ProductNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,27 +51,20 @@ public class ProductControllerAdvice {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        ExceptionModel exceptionData = new ExceptionModel();
-        exceptionData.setStatus(HttpStatus.BAD_REQUEST.value());
-        exceptionData.setError(HttpStatus.BAD_REQUEST.name());
-        exceptionData.setMessage(String.join(",", errors));
-        String path = req.getRequestURI();
-        exceptionData.setPath(path);
-        exceptionData.setTimestamp(new Date());
-        return exceptionData;
+        return getObjectMsg(String.join(",", errors), req);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionModel productNotFound(UserNotFoundException e, HttpServletRequest req) {
-        ExceptionModel exceptionData = new ExceptionModel();
-        exceptionData.setStatus(HttpStatus.NOT_FOUND.value());
-        exceptionData.setError(HttpStatus.NOT_FOUND.name());
-        exceptionData.setMessage(e.getMessage());
-        String path = req.getRequestURI();
-        exceptionData.setPath(path);
-        exceptionData.setTimestamp(new Date());
-        return exceptionData;
+        return getObjectMsg(e.getMessage(), req);
+    }
+
+    @ExceptionHandler(CheckoutProductNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel productNotFound(CheckoutProductNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
     }
 }

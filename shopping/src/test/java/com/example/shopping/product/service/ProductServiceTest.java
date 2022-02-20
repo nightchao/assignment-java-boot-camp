@@ -1,8 +1,11 @@
 package com.example.shopping.product.service;
 
 import com.example.shopping.product.db.Basket;
+import com.example.shopping.product.db.OrderList;
 import com.example.shopping.product.db.Product;
+import com.example.shopping.product.model.ListBasketItem;
 import com.example.shopping.product.repo.BasketRepository;
+import com.example.shopping.product.repo.OrderListRepository;
 import com.example.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,6 +28,9 @@ class ProductServiceTest {
 
     @Mock
     private BasketRepository basketRepository;
+
+    @Mock
+    private OrderListRepository orderListRepository;
 
     @Test
     void getListProduct() {
@@ -101,5 +108,28 @@ class ProductServiceTest {
 
         // Assert
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void saveOrderList() {
+        // Arrange
+        List<OrderList> listAllOrder = new ArrayList<>();
+        String orderId = "OrderIdTest";
+        OrderList orderList = new OrderList(orderId, 11, 22, 33, 100, null);
+        listAllOrder.add(orderList);
+        when(orderListRepository.saveAll(anyList())).thenReturn(listAllOrder);
+
+        // Act
+        ProductService productService = new ProductService();
+        productService.setOrderListRepository(orderListRepository);
+        List<OrderList> listAllOrderTest = new ArrayList<>();
+        String orderIdTest = "OrderIdTest";
+        OrderList orderListTest = new OrderList(orderIdTest, 11, 22, 33, 100, null);
+        listAllOrderTest.add(orderListTest);
+        productService.saveOrderList(listAllOrderTest);
+
+        // Assert
+        assertNotNull(listAllOrderTest);
+        assertEquals(1, listAllOrderTest.size());
     }
 }

@@ -1,8 +1,10 @@
 package com.example.shopping.product.controller;
 
 import com.example.shopping.product.db.Basket;
+import com.example.shopping.product.db.OrderList;
 import com.example.shopping.product.db.Product;
 import com.example.shopping.product.db.ScmUser;
+import com.example.shopping.product.exception.CheckoutProductNotFoundException;
 import com.example.shopping.product.exception.ProductNotFoundException;
 import com.example.shopping.product.exception.UserNotFoundException;
 import com.example.shopping.product.model.*;
@@ -13,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -135,10 +134,13 @@ public class ProductController {
 
     @GetMapping("/basket/{userId}")
     public GetBasketResponse showProductInBasket(@PathVariable int userId) {
+        List<ListBasketItem> listBasket = getListBasketItem(userId);
+        int total = listBasket.size();
+        return new GetBasketResponse(total, listBasket);
+    }
+
+    private List<ListBasketItem> getListBasketItem(int userId) {
         List<Basket> listProduct = productService.getProductInBasket(userId);
-        if (listProduct.isEmpty()) {
-            return new GetBasketResponse(0, new ArrayList<>(1));
-        }
 
         List<ListBasketItem> listBasket = new ArrayList<>();
         ListBasketItem listBasketItem;
@@ -149,9 +151,7 @@ public class ProductController {
             listBasketItem.setSize(basket.getSize());
             listBasket.add(listBasketItem);
         }
-
-        int total = listBasket.size();
-        return new GetBasketResponse(total, listBasket);
+        return listBasket;
     }
 
     private void setDataToListBasketItem(ListBasketItem listBasketItem, int productId) {
@@ -167,5 +167,25 @@ public class ProductController {
         listBasketItem.setDiscount(product.getDiscount());
         listBasketItem.setBrand(product.getBrand());
         listBasketItem.setVat(product.getVat());
+    }
+
+    @PostMapping("/basket/checkout")
+    public CheckOutResponse checkOutBasket(@Valid @RequestBody() CheckOutRequest input) {
+        List<ListBasketItem> listBasket = getListBasketItem(input.getUserId());
+        if (listBasket.isEmpty()) {
+            throw new CheckoutProductNotFoundException(input.getUserId());
+        }
+
+        List<OrderList> listAllOrder = new ArrayList<>();
+        OrderList orderList;
+        UUID uuid = UUID.randomUUID();
+        String orderId = uuid.toString();
+        for (ListBasketItem item : listBasket) {
+            orderList = new OrderList(orderId, input.getUserId(), item.getProductId(), item.getQuantity(), item.getPrice(), item.getVat());
+            listAllOrder.add(orderList);
+        }
+
+        productService.saveOrderList(listAllOrder);
+        return new CheckOutResponse("Update Success", orderId);
     }
 }

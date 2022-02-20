@@ -202,4 +202,48 @@ class ProductControllerTest {
         // Assert
         assertEquals(1, result.getTotal());
     }
+
+    @Test
+    @DisplayName("ทำการ checkout โดยส่ง userId = 11 แล้วมีค่า orderId กลับมา")
+    void case10() {
+        // Arrange
+        List<Basket> listBasketItem = new ArrayList<>(1);
+        Basket basket = new Basket(11, 22);
+        basket.setQuantity(1);
+        basket.setSize(42);
+        basket.setImage("https://image/1.jpg");
+        listBasketItem.add(basket);
+        when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listBasketItem));
+
+        Product product = new Product(11, "product name");
+        product.setQuantity(33);
+        when(productRepository.findById(11)).thenReturn(Optional.of(product));
+
+        CheckOutRequest checkOutRequest = new CheckOutRequest(11);
+
+        // Act
+        CheckOutResponse result = testRestTemplate.postForObject("/product/basket/checkout", checkOutRequest, CheckOutResponse.class);
+
+        // Assert
+        assertEquals("Update Success", result.getMessage());
+        assertNotNull(result.getOrderId());
+    }
+
+    @Test
+    @DisplayName("ทำการ checkout โดยส่ง userId = 11 แล้วได้รับ JSON Object error กรณีไม่มีสินค้าในตะกร้า")
+    void case11() {
+        // Arrange
+        when(basketRepository.findByUserId(11)).thenReturn(Optional.empty());
+
+        CheckOutRequest checkOutRequest = new CheckOutRequest(11);
+
+        // Act
+        ExceptionModel exception = testRestTemplate.postForObject("/product/basket/checkout", checkOutRequest, ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "Cannot checkout product userId: 11";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
 }

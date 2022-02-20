@@ -151,7 +151,7 @@ public class ProductController {
         }
 
         int total = listBasket.size();
-        return new GetBasketResponse(total, new ArrayList<>(1));
+        return new GetBasketResponse(total, listBasket);
     }
 
     private void setDataToListBasketItem(ListBasketItem listBasketItem, int productId) {

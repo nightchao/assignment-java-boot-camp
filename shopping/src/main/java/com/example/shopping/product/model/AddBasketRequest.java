@@ -13,6 +13,7 @@ public class AddBasketRequest {
     @NotNull(message = "quantity is null")
     private Integer quantity;
 
+    private String image;
     private Integer size;
 
     public AddBasketRequest(int userId, Integer productId, Integer quantity) {
@@ -43,6 +44,14 @@ public class AddBasketRequest {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getSize() {

@@ -26,6 +26,7 @@ public class Product {
     private int ratingVote;
     private String province;
     private boolean isEms;
+    private int vat;
 
     public Product() {
     }
@@ -179,5 +180,13 @@ public class Product {
 
     public void setEms(boolean ems) {
         isEms = ems;
+    }
+
+    public int getVat() {
+        return vat;
+    }
+
+    public void setVat(int vat) {
+        this.vat = vat;
     }
 }

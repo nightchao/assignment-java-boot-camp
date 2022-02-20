@@ -41,4 +41,9 @@ public class ProductService {
     public void saveBasket(Basket basket) {
         this.basketRepository.save(basket);
     }
+
+    public List<Basket> getProductInBasket(int userId) {
+        Optional<List<Basket>> list = basketRepository.findByUserId(userId);
+        return list.orElse(new ArrayList<>(1));
+    }
 }

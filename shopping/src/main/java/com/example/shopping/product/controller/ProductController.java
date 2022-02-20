@@ -126,9 +126,46 @@ public class ProductController {
 
         Basket basket = new Basket(user.getUserId(), product.getProductId());
         basket.setQuantity(input.getQuantity());
+        basket.setImage(input.getImage());
         basket.setSize(input.getSize());
         productService.saveBasket(basket);
 
         return new AddBasketResponse("Update Success");
+    }
+
+    @GetMapping("/basket/{userId}")
+    public GetBasketResponse showProductInBasket(@PathVariable int userId) {
+        List<Basket> listProduct = productService.getProductInBasket(userId);
+        if (listProduct.isEmpty()) {
+            return new GetBasketResponse(0, new ArrayList<>(1));
+        }
+
+        List<ListBasketItem> listBasket = new ArrayList<>();
+        ListBasketItem listBasketItem;
+        for (Basket basket : listProduct) {
+            listBasketItem = new ListBasketItem();
+            setDataToListBasketItem(listBasketItem, basket.getProductId());
+            listBasketItem.setImage(basket.getImage());
+            listBasketItem.setSize(basket.getSize());
+            listBasket.add(listBasketItem);
+        }
+
+        int total = listBasket.size();
+        return new GetBasketResponse(total, new ArrayList<>(1));
+    }
+
+    private void setDataToListBasketItem(ListBasketItem listBasketItem, int productId) {
+        Product product = productService.getProduct(productId);
+        if (product == null) {
+            return;
+        }
+
+        listBasketItem.setProductId(productId);
+        listBasketItem.setQuantity(product.getQuantity());
+        listBasketItem.setName(product.getName());
+        listBasketItem.setPrice(product.getPrice());
+        listBasketItem.setDiscount(product.getDiscount());
+        listBasketItem.setBrand(product.getBrand());
+        listBasketItem.setVat(product.getVat());
     }
 }

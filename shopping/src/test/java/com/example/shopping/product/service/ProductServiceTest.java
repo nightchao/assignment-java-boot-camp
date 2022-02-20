@@ -82,4 +82,24 @@ class ProductServiceTest {
         assertEquals(22, basketTest.getProductId());
         assertEquals(33, basketTest.getQuantity());
     }
+
+    @Test
+    void getProductInBasket() {
+        // Arrange
+        Basket basket = new Basket(11, 22);
+        basket.setQuantity(1);
+        basket.setSize(42);
+        basket.setImage("https://image/1.jpg");
+        List<Basket> listDb = new ArrayList<>(1);
+        listDb.add(basket);
+        when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listDb));
+
+        // Act
+        ProductService productService = new ProductService();
+        productService.setBasketRepository(basketRepository);
+        List<Basket> result = productService.getProductInBasket(11);
+
+        // Assert
+        assertEquals(1, result.size());
+    }
 }

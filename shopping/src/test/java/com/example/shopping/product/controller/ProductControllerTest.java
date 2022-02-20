@@ -1,12 +1,11 @@
 package com.example.shopping.product.controller;
 
+import com.example.shopping.product.db.Basket;
 import com.example.shopping.product.db.Product;
 import com.example.shopping.product.db.ScmUser;
 import com.example.shopping.product.exception.ExceptionModel;
-import com.example.shopping.product.model.AddBasketRequest;
-import com.example.shopping.product.model.AddBasketResponse;
-import com.example.shopping.product.model.DetailResponse;
-import com.example.shopping.product.model.SearchResponse;
+import com.example.shopping.product.model.*;
+import com.example.shopping.product.repo.BasketRepository;
 import com.example.shopping.product.repo.ProductRepository;
 import com.example.shopping.product.repo.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +36,9 @@ class ProductControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private BasketRepository basketRepository;
 
     @Test
     @DisplayName("เรียก /product แล้วจะต้องได้ผลการค้นหา 2 record")
@@ -176,5 +178,28 @@ class ProductControllerTest {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    @DisplayName("แสดงสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11 แล้วผลลัพธ์มีสินค้าในตะกร้า 1 รายการ")
+    void case09() {
+        // Arrange
+        List<Basket> listBasketItem = new ArrayList<>(1);
+        Basket basket = new Basket(11, 22);
+        basket.setQuantity(1);
+        basket.setSize(42);
+        basket.setImage("https://image/1.jpg");
+        listBasketItem.add(basket);
+        when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listBasketItem));
+
+        Product product = new Product(11, "product name");
+        product.setQuantity(33);
+        when(productRepository.findById(11)).thenReturn(Optional.of(product));
+
+        // Act
+        GetBasketResponse result = testRestTemplate.getForObject("/product/basket/11", GetBasketResponse.class);
+
+        // Assert
+        assertEquals(1, result.getTotal());
     }
 }

@@ -38,8 +38,7 @@ public class ProductControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionModel handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpServletRequest req
-    ) {
+            MethodArgumentNotValidException ex, HttpServletRequest req) {
 
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()

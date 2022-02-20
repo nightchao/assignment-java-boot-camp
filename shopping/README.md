@@ -28,7 +28,7 @@
 ## 5. กดชำระค่าสินค้า
 | Method | Url                      | Description                                  | Sample Valid Request Body                                                                                       | Sample Valid Response Body                                                                                       |
 |--------|--------------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| POST   | /product/basket          | checkout product in basket                   | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-checkout-product-in-basket) | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-checkout-product-in-basket) |
+| POST   | /product/basket/checkout | checkout product in basket                   | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-checkout-product-in-basket) | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-checkout-product-in-basket) |
 
 ## 6. แสดงที่อยู่เพื่อจัดส่งสินค้า, ข้อมูลการส่งสินค้า และรายการสั่งซื้อสินค้า
 กำหนดให้ที่อยู่แสดงตามค่า default ของ user ในระบบ

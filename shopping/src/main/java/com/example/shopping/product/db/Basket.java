@@ -15,6 +15,7 @@ public class Basket {
     private int productId;
 
     private Integer quantity;
+    private String image;
     private Integer size;
 
     public Basket() {
@@ -48,6 +49,14 @@ public class Basket {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getSize() {

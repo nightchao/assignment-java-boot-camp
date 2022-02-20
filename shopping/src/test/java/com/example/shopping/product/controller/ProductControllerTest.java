@@ -120,7 +120,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
+    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
     void case06() {
         // Arrange
         ScmUser user = new ScmUser(11, "user name");
@@ -140,7 +140,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี User not found")
+    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี User not found")
     void case07() {
         // Arrange
         when(userRepository.findById(11)).thenReturn(Optional.empty());
@@ -158,7 +158,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
+    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
     void case08() {
         // Arrange
         ScmUser user = new ScmUser(11, "user name");

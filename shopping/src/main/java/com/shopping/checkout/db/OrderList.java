@@ -15,6 +15,7 @@ public class OrderList {
     private int quantity;
     private int price;
     private Integer vat;
+    private boolean isEms;
 
     public OrderList() {
 
@@ -83,5 +84,13 @@ public class OrderList {
 
     public void setVat(Integer vat) {
         this.vat = vat;
+    }
+
+    public boolean isEms() {
+        return isEms;
+    }
+
+    public void setEms(boolean ems) {
+        isEms = ems;
     }
 }

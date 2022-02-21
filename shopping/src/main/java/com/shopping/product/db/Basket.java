@@ -17,6 +17,7 @@ public class Basket {
     private Integer quantity;
     private String image;
     private Integer size;
+    private boolean isEms;
 
     public Basket() {
         
@@ -65,5 +66,13 @@ public class Basket {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public boolean isEms() {
+        return isEms;
+    }
+
+    public void setEms(boolean ems) {
+        isEms = ems;
     }
 }

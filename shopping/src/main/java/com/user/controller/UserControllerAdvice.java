@@ -30,7 +30,7 @@ public class UserControllerAdvice {
     @ExceptionHandler(AddressNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel addressNotFound(ProductNotFoundException e, HttpServletRequest req) {
+    public ExceptionModel addressNotFound(AddressNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 

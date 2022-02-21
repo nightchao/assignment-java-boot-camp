@@ -1,9 +1,11 @@
 package com.shopping.product.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shopping.product.db.Product;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DetailResponse extends Product {
 
     private List<Integer> size;

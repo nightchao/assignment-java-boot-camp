@@ -1,5 +1,8 @@
 package com.shopping.product.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CheckOutResponse {
 
     private String message;

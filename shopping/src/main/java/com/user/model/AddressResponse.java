@@ -3,6 +3,7 @@ package com.user.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.user.db.Address;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressResponse extends Address {
 
     private String fullName;

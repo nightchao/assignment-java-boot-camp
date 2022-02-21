@@ -37,6 +37,7 @@ public class ShoppingApplication {
         ScmUser user = new ScmUser();
         user.setUserId(65001);
         user.setFullName("ไนท์ ป่ามะม่วง");
+        user.setEmail("nightza007@abc.com");
         this.userRepository.save(user);
     }
 

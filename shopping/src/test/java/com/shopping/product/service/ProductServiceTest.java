@@ -38,6 +38,7 @@ class ProductServiceTest {
         listDb.add(product01);
         listDb.add(product02);
         when(productRepository.findByNameContainingIgnoreCase("AT")).thenReturn(Optional.of(listDb));
+        when(productRepository.findByNameContainingIgnoreCase("XXX")).thenReturn(Optional.empty());
 
         // Act
         ProductService productService = new ProductService();

@@ -1,4 +1,4 @@
-package com.shopping;
+package com;
 
 import com.shopping.product.db.Product;
 import com.shopping.product.db.ScmUser;

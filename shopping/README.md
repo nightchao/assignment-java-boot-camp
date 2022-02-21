@@ -40,30 +40,30 @@
 
 กำหนดให้ที่อยู่แสดงตามค่า default ของ user ในระบบ กำหนดให้ไม่เลือกรับใบกำกับภาษี
 
-| Method | Url                       | Description       | Sample Valid Request Body | Sample Valid Response Body                                                                             |
-|--------|---------------------------|-------------------|---------------------------|--------------------------------------------------------------------------------------------------------|
-| GET    | /user/{userId}/address    | show address user | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-show-address-user) |
-| GET    | /order/shipping/{orderId} | show shipping     | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-shipping)    |
-| GET    | /order/{orderId}          | show list order   | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-list-order)  |
+| Method | Url                          | Description       | Sample Valid Request Body | Sample Valid Response Body                                                                             |
+|--------|------------------------------|-------------------|---------------------------|--------------------------------------------------------------------------------------------------------|
+| GET    | /user/{userId}/address       | show address user | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-show-address-user) |
+| GET    | /checkout/shipping/{orderId} | show shipping     | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-shipping)    |
+| GET    | /checkout/{orderId}          | show list order   | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-list-order)  |
 
 ## 7. แสดงช่องทางการชำระเงิน
 
 กำหนดให้เลือกช่องทางการชำระเงินโดยโอนเงินผ่านธนาคาร
 
-| Method | Url                   | Description                                  | Sample Valid Request Body                                                                                       | Sample Valid Response Body                                                                                       |
-|--------|-----------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| GET    | /order/payment/method | show payment method                          | -                                                                                                               | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-payment-method)        |
+| Method | Url                      | Description         | Sample Valid Request Body | Sample Valid Response Body                                                                                |
+|--------|--------------------------|---------------------|---------------------------|-----------------------------------------------------------------------------------------------------------|
+| GET    | /checkout/payment/method | show payment method | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-payment-method) |
 
 ## 8. สั่งสื้อสินค้า
 
 กำหนดให้ไม่ใช้คูปองส่วนลด
 
-| Method | Url              | Description  | Sample Valid Request Body                                                                         | Sample Valid Response Body                                                                         |
-|--------|------------------|--------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| PUT    | /order/{orderId} | update order | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-update-order) | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-update-order) |
+| Method | Url                 | Description  | Sample Valid Request Body                                                                         | Sample Valid Response Body                                                                         |
+|--------|---------------------|--------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| PUT    | /checkout/{orderId} | update order | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-update-order) | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-update-order) |
 
 ## 9. แสดงใบแจ้งการชำระเงิน
 
-| Method | Url                      | Description  | Sample Valid Request Body | Sample Valid Response Body                                                                         |
-|--------|--------------------------|--------------|---------------------------|----------------------------------------------------------------------------------------------------|
-| GET    | /order/summary/{orderId} | show summary | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-summary) |
+| Method | Url                         | Description  | Sample Valid Request Body | Sample Valid Response Body                                                                         |
+|--------|-----------------------------|--------------|---------------------------|----------------------------------------------------------------------------------------------------|
+| GET    | /checkout/summary/{orderId} | show summary | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-summary) |

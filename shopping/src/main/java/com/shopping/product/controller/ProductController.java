@@ -1,6 +1,6 @@
 package com.shopping.product.controller;
 
-import com.shopping.checkout.db.OrderList;
+import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.service.CheckoutService;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
@@ -159,17 +159,17 @@ public class ProductController {
     public CheckOutResponse checkOutBasket(@Valid @RequestBody() CheckOutRequest input) {
         List<ListBasketItem> listBasket = getListBasketItem(input.getUserId());
 
-        List<OrderList> listAllOrder = new ArrayList<>();
-        OrderList orderList;
+        List<OrderBuy> listAllOrder = new ArrayList<>();
+        OrderBuy orderList;
         UUID uuid = UUID.randomUUID();
         String orderId = uuid.toString();
         for (ListBasketItem item : listBasket) {
-            orderList = new OrderList(orderId, input.getUserId(), item.getProductId(), item.getQuantity(), item.getPrice(), item.getVat());
+            orderList = new OrderBuy(orderId, input.getUserId(), item.getProductId(), item.getQuantity(), item.getPrice(), item.getVat());
             orderList.setEms(item.isEms());
             listAllOrder.add(orderList);
         }
 
-        checkoutService.saveOrderList(listAllOrder);
+        checkoutService.saveOrderBuy(listAllOrder);
         return new CheckOutResponse("Update Success", orderId);
     }
 }

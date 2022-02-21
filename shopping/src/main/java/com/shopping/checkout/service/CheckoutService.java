@@ -1,8 +1,8 @@
 package com.shopping.checkout.service;
 
 import com.exception.OrderNotFoundException;
-import com.shopping.checkout.db.OrderList;
-import com.shopping.checkout.repo.OrderListRepository;
+import com.shopping.checkout.db.OrderBuy;
+import com.shopping.checkout.repo.OrderBuyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,23 +14,27 @@ import java.util.Optional;
 public class CheckoutService {
 
     @Autowired
-    private OrderListRepository orderListRepository;
+    private OrderBuyRepository orderBuyRepository;
 
-    public void setOrderListRepository(OrderListRepository orderListRepository) {
-        this.orderListRepository = orderListRepository;
+    public void setOrderBuyRepository(OrderBuyRepository orderBuyRepository) {
+        this.orderBuyRepository = orderBuyRepository;
     }
 
     @Transactional
-    public void saveOrderList(List<OrderList> listAllOrder) {
-        this.orderListRepository.saveAll(listAllOrder);
+    public void saveOrderBuy(List<OrderBuy> listAllOrder) {
+        this.orderBuyRepository.saveAll(listAllOrder);
     }
 
-    public List<OrderList> getOrderById(String orderId) {
-        Optional<List<OrderList>> list = this.orderListRepository.findByOrderId(orderId);
-        if (list.isPresent()) {
-            return list.get();
+    public List<OrderBuy> getOrderById(String orderId) {
+        Optional<List<OrderBuy>> list = this.orderBuyRepository.findByOrderId(orderId);
+        if (!list.isPresent()) {
+            throw new OrderNotFoundException(orderId);
         }
 
-        throw new OrderNotFoundException(orderId);
+        List<OrderBuy> listOrderBuy = list.get();
+        if (listOrderBuy.isEmpty()) {
+            throw new OrderNotFoundException(orderId);
+        }
+        return listOrderBuy;
     }
 }

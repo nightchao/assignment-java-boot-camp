@@ -1,6 +1,6 @@
 package com.shopping.checkout.Controller;
 
-import com.shopping.checkout.db.OrderList;
+import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.checkout.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +24,19 @@ public class CheckoutController {
 
     @GetMapping("/shipping/{orderId}")
     public ShippingResponse getShipping(@PathVariable String orderId) {
-        List<OrderList> orderLists = checkoutService.getOrderById(orderId);
+        List<OrderBuy> orderLists = checkoutService.getOrderById(orderId);
 
         int countEms = 0;
-        for (OrderList orderList : orderLists) {
+        for (OrderBuy orderList : orderLists) {
             if (orderList.isEms()) {
+                System.out.println("Check: " + orderList.isEms());
                 countEms++;
             }
         }
 
         // ตรงข้อมูลส่งสินค้า
-        // ถ้า isEms = true จะแสดงข้อความ ส่งแบบด่วน: ฟรี
-        // ถ้า isEms = false จะแสดงข้อความ ส่งแบบธรรมดา: ฟรี
+        // ถ้า isEms = true หน้า front จะแสดงข้อความ ส่งแบบด่วน: ฟรี
+        // ถ้า isEms = false หน้า front จะแสดงข้อความ ส่งแบบธรรมดา: ฟรี
         boolean isEms = countEms == orderLists.size();
         return new ShippingResponse(isEms, deliveryTime(isEms));
     }

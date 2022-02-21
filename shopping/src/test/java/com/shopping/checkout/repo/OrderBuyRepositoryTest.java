@@ -1,6 +1,6 @@
 package com.shopping.checkout.repo;
 
-import com.shopping.checkout.db.OrderList;
+import com.shopping.checkout.db.OrderBuy;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,23 +13,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-class OrderListRepositoryTest {
+class OrderBuyRepositoryTest {
 
     @Autowired
-    private OrderListRepository orderListRepository;
+    private OrderBuyRepository orderBuyRepository;
 
     @Test
     void findByOrderId() {
         // Arrange
-        List<OrderList> listOrder = new ArrayList<>(1);
-        OrderList order01 = new OrderList("order-test", 11, 22, 33, 44, null);
-        OrderList order02 = new OrderList("order-test", 11, 22, 33, 44, null);
+        List<OrderBuy> listOrder = new ArrayList<>(1);
+        OrderBuy order01 = new OrderBuy("order-test", 11, 22, 33, 44, null);
+        OrderBuy order02 = new OrderBuy("order-test", 11, 22, 33, 44, null);
         listOrder.add(order01);
         listOrder.add(order02);
-        orderListRepository.saveAll(listOrder);
+        orderBuyRepository.saveAll(listOrder);
 
         // Act
-        Optional<List<OrderList>> result = orderListRepository.findByOrderId("order-test");
+        Optional<List<OrderBuy>> result = orderBuyRepository.findByOrderId("order-test");
 
         // Assert
         assertTrue(result.isPresent());

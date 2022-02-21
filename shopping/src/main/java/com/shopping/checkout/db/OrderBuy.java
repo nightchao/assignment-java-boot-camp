@@ -5,8 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name = "ORDER_LIST")
-public class OrderList {
+@Entity(name = "ORDER_BUY")
+public class OrderBuy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,11 +20,11 @@ public class OrderList {
     private Integer vat;
     private boolean isEms;
 
-    public OrderList() {
+    public OrderBuy() {
 
     }
 
-    public OrderList(String orderId, int userId, int productId, int quantity, int price, Integer vat) {
+    public OrderBuy(String orderId, int userId, int productId, int quantity, int price, Integer vat) {
         this.orderId = orderId;
         this.userId = userId;
         this.productId = productId;

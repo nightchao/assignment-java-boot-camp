@@ -1,7 +1,8 @@
-package com.shopping.product.service;
+package com.user.service;
 
 import com.user.db.ScmUser;
 import com.user.repo.UserRepository;
+import com.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

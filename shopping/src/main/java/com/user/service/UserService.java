@@ -1,4 +1,4 @@
-package com.shopping.product.service;
+package com.user.service;
 
 import com.user.db.ScmUser;
 import com.user.repo.UserRepository;

@@ -9,7 +9,7 @@ import com.exception.ProductNotFoundException;
 import com.exception.UserNotFoundException;
 import com.shopping.product.model.*;
 import com.shopping.product.service.ProductService;
-import com.shopping.product.service.UserService;
+import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

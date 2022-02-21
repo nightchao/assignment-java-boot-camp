@@ -164,12 +164,17 @@ public class ProductController {
         UUID uuid = UUID.randomUUID();
         String orderId = uuid.toString();
         for (ListBasketItem item : listBasket) {
-            orderList = new OrderBuy(orderId, input.getUserId(), item.getProductId(), item.getQuantity(), item.getPrice(), item.getVat());
+            orderList = new OrderBuy(orderId, input.getUserId(), item.getProductId(),
+                    item.getQuantity(), priceFinal(item.getPrice(), item.getDiscount()), item.getVat());
             orderList.setEms(item.isEms());
             listAllOrder.add(orderList);
         }
 
         checkoutService.saveOrderBuy(listAllOrder);
         return new CheckOutResponse("Update Success", orderId);
+    }
+
+    private int priceFinal(int price, int discount) {
+        return price * (100 - discount) / 100;
     }
 }

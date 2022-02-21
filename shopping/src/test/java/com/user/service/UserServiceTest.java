@@ -1,6 +1,5 @@
 package com.user.service;
 
-import com.exception.ProductNotFoundException;
 import com.exception.UserNotFoundException;
 import com.user.db.Address;
 import com.user.db.ScmUser;

@@ -1,5 +1,6 @@
 package com.user.service;
 
+import com.exception.AddressNotFoundException;
 import com.exception.UserNotFoundException;
 import com.user.db.Address;
 import com.user.db.ScmUser;
@@ -55,10 +56,10 @@ class UserServiceTest {
         UserService userService = new UserService();
         userService.setAddressRepository(addressRepository);
         Address result01 = userService.getAddress(22);
-        Address result02 = userService.getAddress(33);
+        Exception thrown = assertThrows(AddressNotFoundException.class, () -> userService.getAddress(33));
 
         // Assert
         assertEquals("test address", result01.getAddress());
-        assertNull(result02);
+        assertTrue(thrown.getMessage().contains("Address not found userId:"));
     }
 }

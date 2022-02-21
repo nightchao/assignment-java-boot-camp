@@ -1,5 +1,6 @@
 package com.user.service;
 
+import com.exception.AddressNotFoundException;
 import com.exception.UserNotFoundException;
 import com.user.db.Address;
 import com.user.db.ScmUser;
@@ -38,6 +39,10 @@ public class UserService {
 
     public Address getAddress(int userId) {
         Optional<Address> address = addressRepository.findAddress(userId);
-        return address.orElse(null);
+        if (address.isPresent()) {
+            return address.get();
+        }
+
+        throw new AddressNotFoundException(userId);
     }
 }

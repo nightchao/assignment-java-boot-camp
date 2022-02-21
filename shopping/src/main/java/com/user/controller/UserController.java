@@ -1,7 +1,5 @@
 package com.user.controller;
 
-import com.exception.AddressNotFoundException;
-import com.exception.UserNotFoundException;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.model.AddressResponse;
@@ -22,14 +20,7 @@ public class UserController {
     @GetMapping("/{userId}/address")
     public AddressResponse searchProduct(@PathVariable Integer userId) {
         ScmUser user = userService.getUser(userId);
-        if (user == null) {
-            throw new UserNotFoundException(userId);
-        }
-
         Address address = userService.getAddress(user.getUserId());
-        if (address == null) {
-            throw new AddressNotFoundException(userId);
-        }
 
         AddressResponse response = new AddressResponse();
         response.setFullName(user.getFullName());

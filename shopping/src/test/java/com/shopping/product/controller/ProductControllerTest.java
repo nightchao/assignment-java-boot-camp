@@ -80,7 +80,6 @@ class ProductControllerTest {
     @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า test แล้วได้รับ JSON Object error กรณี Search not found")
     void case03() {
         // Arrange
-        List<Product> listDb = new ArrayList<>(1);
         when(productRepository.findByNameContainingIgnoreCase("test")).thenReturn(Optional.empty());
 
         // Act

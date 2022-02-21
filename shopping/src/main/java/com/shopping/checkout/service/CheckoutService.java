@@ -1,12 +1,12 @@
 package com.shopping.checkout.service;
 
+import com.exception.OrderNotFoundException;
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.repo.OrderListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +25,12 @@ public class CheckoutService {
         this.orderListRepository.saveAll(listAllOrder);
     }
 
-    public List<OrderList> getOrderById(String id) {
-        Optional<List<OrderList>> list = this.orderListRepository.findByOrderId(id);
-        return list.orElse(new ArrayList<>(1));
+    public List<OrderList> getOrderById(String orderId) {
+        Optional<List<OrderList>> list = this.orderListRepository.findByOrderId(orderId);
+        if (list.isPresent()) {
+            return list.get();
+        }
+
+        throw new OrderNotFoundException(orderId);
     }
 }

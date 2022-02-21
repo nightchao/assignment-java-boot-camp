@@ -47,15 +47,15 @@ class CheckoutServiceTest {
     @Test
     void getOrderById() {
         // Arrange
-        OrderList orderList = new OrderList("OrderIdTest", 11, 22, 33, 44, null);
+        OrderList orderList = new OrderList("order-test-id", 11, 22, 33, 44, null);
         List<OrderList> listDb = new ArrayList<>(1);
         listDb.add(orderList);
-        when(orderListRepository.findByOrderId("OrderIdTest")).thenReturn(Optional.of(listDb));
+        when(orderListRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
 
         // Act
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setOrderListRepository(orderListRepository);
-        List<OrderList> result = checkoutService.getOrderById("OrderIdTest");
+        List<OrderList> result = checkoutService.getOrderById("order-test-id");
 
         // Assert
         assertEquals(1, result.size());

@@ -1,6 +1,5 @@
 package com.shopping.checkout.Controller;
 
-import com.exception.OrderNotFoundException;
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.checkout.service.CheckoutService;
@@ -26,9 +25,6 @@ public class CheckoutController {
     @GetMapping("/shipping/{orderId}")
     public ShippingResponse getShipping(@PathVariable String orderId) {
         List<OrderList> orderLists = checkoutService.getOrderById(orderId);
-        if (orderLists.isEmpty()) {
-            throw new OrderNotFoundException(orderId);
-        }
 
         int countEms = 0;
         for (OrderList orderList : orderLists) {

@@ -14,11 +14,19 @@ public class ShippingResponse {
         this.deliveryTime = deliveryTime;
     }
 
+    public boolean isEms() {
+        return isEms;
+    }
+
+    public void setEms(boolean ems) {
+        isEms = ems;
+    }
+
     public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public boolean isIsEms() {
-        return isEms;
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
 }

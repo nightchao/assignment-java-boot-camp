@@ -56,14 +56,14 @@ public class ProductControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel productNotFound(UserNotFoundException e, HttpServletRequest req) {
+    public ExceptionModel userNotFound(UserNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 
     @ExceptionHandler(CheckoutProductNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel productNotFound(CheckoutProductNotFoundException e, HttpServletRequest req) {
+    public ExceptionModel checkoutNotFound(CheckoutProductNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 }

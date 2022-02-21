@@ -31,7 +31,7 @@ public class ProductControllerAdvice {
     @ExceptionHandler(SearchNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel productNotFound(SearchNotFoundException e, HttpServletRequest req) {
+    public ExceptionModel searchNotFound(SearchNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 
@@ -57,17 +57,17 @@ public class ProductControllerAdvice {
         return getObjectMsg(String.join(",", errors), req);
     }
 
+    @ExceptionHandler(BasketItemNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel basketItemNotFound(BasketItemNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionModel userNotFound(UserNotFoundException e, HttpServletRequest req) {
-        return getObjectMsg(e.getMessage(), req);
-    }
-
-    @ExceptionHandler(CheckoutProductNotFoundException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel checkoutNotFound(CheckoutProductNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 }

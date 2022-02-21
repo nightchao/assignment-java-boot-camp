@@ -1,5 +1,6 @@
 package com.shopping.product.service;
 
+import com.exception.BasketItemNotFoundException;
 import com.exception.ProductNotFoundException;
 import com.exception.SearchNotFoundException;
 import com.shopping.product.db.Basket;
@@ -54,6 +55,10 @@ public class ProductService {
 
     public List<Basket> getProductInBasket(int userId) {
         Optional<List<Basket>> list = basketRepository.findByUserId(userId);
-        return list.orElse(new ArrayList<>(1));
+        if (list.isPresent()) {
+            return list.get();
+        }
+
+        throw new BasketItemNotFoundException(userId);
     }
 }

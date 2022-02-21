@@ -1,6 +1,5 @@
 package com.shopping.product.controller;
 
-import com.exception.CheckoutProductNotFoundException;
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.service.CheckoutService;
 import com.shopping.product.db.Basket;
@@ -159,9 +158,6 @@ public class ProductController {
     @PostMapping("/basket/checkout")
     public CheckOutResponse checkOutBasket(@Valid @RequestBody() CheckOutRequest input) {
         List<ListBasketItem> listBasket = getListBasketItem(input.getUserId());
-        if (listBasket.isEmpty()) {
-            throw new CheckoutProductNotFoundException(input.getUserId());
-        }
 
         List<OrderList> listAllOrder = new ArrayList<>();
         OrderList orderList;

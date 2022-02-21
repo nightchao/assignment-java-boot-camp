@@ -1,6 +1,7 @@
 package com.shopping.product.controller;
 
 import com.exception.ExceptionModel;
+import com.exception.SearchNotFoundException;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
 import com.shopping.product.model.*;
@@ -41,11 +42,11 @@ class ProductControllerTest {
     private BasketRepository basketRepository;
 
     @Test
-    @DisplayName("เรียก /product แล้วจะต้องได้ผลการค้นหา 2 record")
+    @DisplayName("ค้นหาข้อมูลโดยไม่ส่งคำค้นหา แล้วได้ผลการค้นหา 2 record")
     void case01() {
         // Arrange
-        Product product01 = new Product(1, "testing01");
-        Product product02 = new Product(2, "testing02");
+        Product product01 = new Product(1, "test01");
+        Product product02 = new Product(2, "test02");
         List<Product> listDb = new ArrayList<>(1);
         listDb.add(product01);
         listDb.add(product02);
@@ -59,40 +60,42 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า FI แล้วจะต้องได้ผลการค้นหา 1 record, list search มีข้อมูล และชื่อต้องเท่ากับ Fish 007")
+    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า te แล้วได้ผลการค้นหา 1 record, list search มีข้อมูล และชื่อสินค้าต้องเท่ากับ Test 007")
     void case02() {
         // Arrange
-        Product product01 = new Product(1, "Fish 007");
+        Product product01 = new Product(1, "Test 007");
         List<Product> listDb = new ArrayList<>(1);
         listDb.add(product01);
-        when(productRepository.findByNameContainingIgnoreCase("FI")).thenReturn(Optional.of(listDb));
+        when(productRepository.findByNameContainingIgnoreCase("te")).thenReturn(Optional.of(listDb));
 
         // Act
-        SearchResponse result = testRestTemplate.getForObject("/product?search=FI", SearchResponse.class);
+        SearchResponse result = testRestTemplate.getForObject("/product?search=te", SearchResponse.class);
 
         // Assert
         assertEquals(1, result.getTotal());
         assertFalse(result.getListSearch().isEmpty());
-        assertEquals("Fish 007", result.getListSearch().get(0).getName());
+        assertEquals("Test 007", result.getListSearch().get(0).getName());
     }
 
     @Test
-    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า OO แล้วจะต้องได้ผลการค้นหา 0 record, list search ไม่มีข้อมูล")
+    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า test แล้วได้รับ JSON Object error กรณี Search not found")
     void case03() {
         // Arrange
         List<Product> listDb = new ArrayList<>(1);
-        when(productRepository.findByNameContainingIgnoreCase("OO")).thenReturn(Optional.of(listDb));
+        when(productRepository.findByNameContainingIgnoreCase("test")).thenReturn(Optional.empty());
 
         // Act
-        SearchResponse result = testRestTemplate.getForObject("/product?search=OO", SearchResponse.class);
+        ExceptionModel exception = testRestTemplate.getForObject("/product?search=test", ExceptionModel.class);
 
         // Assert
-        assertEquals(0, result.getTotal());
-        assertTrue(result.getListSearch().isEmpty());
+        String expectedMessage = "Search not found: test";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
     }
 
     @Test
-    @DisplayName("ค้นหาข้อมูลรายละเอียดสินค้าโดยส่ง productId = 1 แล้วเจอสินค้าที่ชื่อว่า test name")
+    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 1 แล้วเจอสินค้าที่ชื่อว่า test name")
     void case04() {
         // Arrange
         Product product = new Product(1, "test name");
@@ -106,7 +109,7 @@ class ProductControllerTest {
     }
 
     @Test()
-    @DisplayName("ค้นหาข้อมูลรายละเอียดสินค้าโดยส่ง productId = 2 แล้วเจอไม่พบสินค้าจากนั้นส่ง JSON Object error กลับมา")
+    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 2 แล้วได้รับ JSON Object error กรณี Product not found")
     void case05() {
         // Arrange
         when(productRepository.findById(2)).thenReturn(Optional.empty());
@@ -181,7 +184,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11 แล้วผลลัพธ์มีสินค้าในตะกร้า 1 รายการ")
+    @DisplayName("แสดงสินค้าลงตะกร้าโดยส่งตัวแปร userId = 11 แล้วผลลัพธ์มีสินค้าในตะกร้า 1 รายการ")
     void case09() {
         // Arrange
         List<Basket> listBasketItem = new ArrayList<>(1);
@@ -204,7 +207,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ทำการ checkout โดยส่ง userId = 11 แล้วมีค่า orderId กลับมา")
+    @DisplayName("ทำการ checkout สินค้าโดยส่ง userId = 11 แล้วมีค่า orderId กลับมา")
     void case10() {
         // Arrange
         List<Basket> listBasketItem = new ArrayList<>(1);
@@ -230,7 +233,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ทำการ checkout โดยส่ง userId = 11 แล้วได้รับ JSON Object error กรณีไม่มีสินค้าในตะกร้า")
+    @DisplayName("ทำการ checkout สินค้าโดยส่ง userId = 11 แล้วได้รับ JSON Object error กรณีไม่มีสินค้าในตะกร้า")
     void case11() {
         // Arrange
         when(basketRepository.findByUserId(11)).thenReturn(Optional.empty());
@@ -241,7 +244,7 @@ class ProductControllerTest {
         ExceptionModel exception = testRestTemplate.postForObject("/product/basket/checkout", checkOutRequest, ExceptionModel.class);
 
         // Assert
-        String expectedMessage = "Cannot checkout product userId: 11";
+        String expectedMessage = "Product in basket not found userId: 11";
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));

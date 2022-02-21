@@ -131,6 +131,7 @@ public class ProductController {
         basket.setQuantity(input.getQuantity());
         basket.setImage(input.getImage());
         basket.setSize(input.getSize());
+        basket.setEms(product.isEms());
         productService.saveBasket(basket);
 
         return new AddBasketResponse("Update Success");
@@ -171,6 +172,7 @@ public class ProductController {
         listBasketItem.setDiscount(product.getDiscount());
         listBasketItem.setBrand(product.getBrand());
         listBasketItem.setVat(product.getVat());
+        listBasketItem.setEms(product.isEms());
     }
 
     @PostMapping("/basket/checkout")
@@ -186,6 +188,7 @@ public class ProductController {
         String orderId = uuid.toString();
         for (ListBasketItem item : listBasket) {
             orderList = new OrderList(orderId, input.getUserId(), item.getProductId(), item.getQuantity(), item.getPrice(), item.getVat());
+            orderList.setEms(item.isEms());
             listAllOrder.add(orderList);
         }
 

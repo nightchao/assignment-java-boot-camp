@@ -1,8 +1,10 @@
 package com;
 
 import com.shopping.product.db.Product;
+import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.shopping.product.repo.ProductRepository;
+import com.user.repo.AddressRepository;
 import com.user.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +25,9 @@ public class ShoppingApplication {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ShoppingApplication.class, args);
     }
@@ -39,6 +44,14 @@ public class ShoppingApplication {
         user.setFullName("ไนท์ ป่ามะม่วง");
         user.setEmail("nightza007@abc.com");
         this.userRepository.save(user);
+
+        Address address = new Address(512945, user.getUserId());
+        address.setAddress("14/1 หมู่ที่ 10 ตำบลป่ามะม่วง");
+        address.setDistrict("เมือง");
+        address.setProvince("ตาก");
+        address.setTelephone("0891234567");
+        address.setDefault(1);
+        addressRepository.save(address);
     }
 
     private void addProductInit() {

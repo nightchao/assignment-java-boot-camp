@@ -1,6 +1,8 @@
 package com.user.service;
 
+import com.user.db.Address;
 import com.user.db.ScmUser;
+import com.user.repo.AddressRepository;
 import com.user.repo.UserRepository;
 import com.user.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,9 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AddressRepository addressRepository;
+
     @Test
     void getUser() {
         // Arrange
@@ -34,6 +39,25 @@ class UserServiceTest {
 
         // Assert
         assertEquals("night 007", result01.getFullName());
+        assertNull(result02);
+    }
+
+    @Test
+    void getAddress() {
+        Address address = new Address(11, 22);
+        address.setAddress("test address");
+        address.setDefault(1);
+        when(addressRepository.findAddress(22)).thenReturn(Optional.of(address));
+        when(addressRepository.findAddress(33)).thenReturn(Optional.empty());
+
+        // Act
+        UserService userService = new UserService();
+        userService.setAddressRepository(addressRepository);
+        Address result01 = userService.getAddress(22);
+        Address result02 = userService.getAddress(33);
+
+        // Assert
+        assertEquals("test address", result01.getAddress());
         assertNull(result02);
     }
 }

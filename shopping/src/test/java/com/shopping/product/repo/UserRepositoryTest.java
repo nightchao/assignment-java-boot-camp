@@ -1,6 +1,7 @@
 package com.shopping.product.repo;
 
-import com.shopping.product.db.ScmUser;
+import com.user.db.ScmUser;
+import com.user.repo.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

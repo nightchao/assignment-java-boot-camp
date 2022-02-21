@@ -1,6 +1,6 @@
-package com.shopping.product.repo;
+package com.user.repo;
 
-import com.shopping.product.db.ScmUser;
+import com.user.db.ScmUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

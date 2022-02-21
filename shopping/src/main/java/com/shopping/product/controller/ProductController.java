@@ -3,7 +3,7 @@ package com.shopping.product.controller;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.OrderList;
 import com.shopping.product.db.Product;
-import com.shopping.product.db.ScmUser;
+import com.user.db.ScmUser;
 import com.exception.CheckoutProductNotFoundException;
 import com.exception.ProductNotFoundException;
 import com.exception.UserNotFoundException;

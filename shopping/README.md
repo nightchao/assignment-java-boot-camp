@@ -40,11 +40,11 @@
 
 กำหนดให้ที่อยู่แสดงตามค่า default ของ user ในระบบ กำหนดให้ไม่เลือกรับใบกำกับภาษี
 
-| Method | Url                                        | Description       | Sample Valid Request Body | Sample Valid Response Body                                                                             |
-|--------|--------------------------------------------|-------------------|---------------------------|--------------------------------------------------------------------------------------------------------|
-| GET    | /user/{userId}/address                     | show address user | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-show-address-user) |
-| GET    | /checkout/shipping/{orderId}?isReceiptVat= | show shipping     | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-shipping)    |
-| GET    | /checkout/{orderId}                        | show list order   | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-list-order)  |
+| Method | Url                          | Description       | Sample Valid Request Body | Sample Valid Response Body                                                                             |
+|--------|------------------------------|-------------------|---------------------------|--------------------------------------------------------------------------------------------------------|
+| GET    | /user/{userId}/address       | show address user | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-show-address-user) |
+| GET    | /checkout/shipping/{orderId} | show shipping     | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-shipping)    |
+| GET    | /checkout/{orderId}          | show list order   | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-list-order)  |
 
 ## 7. แสดงช่องทางการชำระเงิน
 

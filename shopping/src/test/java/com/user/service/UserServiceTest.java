@@ -1,5 +1,7 @@
 package com.user.service;
 
+import com.exception.ProductNotFoundException;
+import com.exception.UserNotFoundException;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.repo.AddressRepository;
@@ -34,11 +36,11 @@ class UserServiceTest {
         UserService userService = new UserService();
         userService.setUserRepository(userRepository);
         ScmUser result01 = userService.getUser(1);
-        ScmUser result02 = userService.getUser(2);
+        Exception thrown = assertThrows(UserNotFoundException.class, () -> userService.getUser(2));
 
         // Assert
         assertEquals("night 007", result01.getFullName());
-        assertNull(result02);
+        assertTrue(thrown.getMessage().contains("User id:"));
     }
 
     @Test

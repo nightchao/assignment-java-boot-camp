@@ -2,7 +2,6 @@ package com.user.controller;
 
 import com.exception.AddressNotFoundException;
 import com.exception.ExceptionModel;
-import com.exception.ProductNotFoundException;
 import com.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

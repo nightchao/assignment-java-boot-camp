@@ -1,9 +1,6 @@
 package com.shopping.product.controller;
 
-import com.exception.CheckoutProductNotFoundException;
-import com.exception.ExceptionModel;
-import com.exception.ProductNotFoundException;
-import com.exception.UserNotFoundException;
+import com.exception.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +26,13 @@ public class ProductControllerAdvice {
         exceptionData.setPath(path);
         exceptionData.setTimestamp(new Date());
         return exceptionData;
+    }
+
+    @ExceptionHandler(SearchNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel productNotFound(SearchNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)

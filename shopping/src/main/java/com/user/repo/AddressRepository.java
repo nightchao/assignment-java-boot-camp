@@ -1,6 +1,5 @@
 package com.user.repo;
 
-import com.shopping.product.db.Basket;
 import com.user.db.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

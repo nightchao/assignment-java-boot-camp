@@ -1,14 +1,14 @@
 package com.shopping.checkout.Controller;
 
 import com.exception.OrderNotFoundException;
-import com.exception.ProductNotFoundException;
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.checkout.service.CheckoutService;
-import com.shopping.product.db.Basket;
-import com.shopping.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

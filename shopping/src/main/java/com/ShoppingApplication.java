@@ -1,9 +1,9 @@
 package com;
 
 import com.shopping.product.db.Product;
+import com.shopping.product.repo.ProductRepository;
 import com.user.db.Address;
 import com.user.db.ScmUser;
-import com.shopping.product.repo.ProductRepository;
 import com.user.repo.AddressRepository;
 import com.user.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

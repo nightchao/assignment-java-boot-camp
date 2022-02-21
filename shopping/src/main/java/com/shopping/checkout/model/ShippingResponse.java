@@ -9,7 +9,7 @@ public class ShippingResponse {
 
     }
 
-    public ShippingResponse( boolean isEms, String deliveryTime) {
+    public ShippingResponse(boolean isEms, String deliveryTime) {
         this.isEms = isEms;
         this.deliveryTime = deliveryTime;
     }

@@ -1,14 +1,13 @@
 package com.shopping.product.service;
 
+import com.exception.ProductNotFoundException;
+import com.exception.SearchNotFoundException;
 import com.shopping.product.db.Basket;
-import com.shopping.checkout.db.OrderList;
 import com.shopping.product.db.Product;
 import com.shopping.product.repo.BasketRepository;
-import com.shopping.checkout.repo.OrderListRepository;
 import com.shopping.product.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +32,20 @@ public class ProductService {
 
     public List<Product> getListProduct(String search) {
         Optional<List<Product>> list = productRepository.findByNameContainingIgnoreCase(search);
-        return list.orElse(new ArrayList<>(1));
+        if (list.isPresent()) {
+            return list.get();
+        }
+
+        throw new SearchNotFoundException(search);
     }
 
     public Product getProduct(int productId) {
         Optional<Product> product = productRepository.findById(productId);
-        return product.orElse(null);
+        if (product.isPresent()) {
+            return product.get();
+        }
+
+        throw new ProductNotFoundException(productId);
     }
 
     public void saveBasket(Basket basket) {

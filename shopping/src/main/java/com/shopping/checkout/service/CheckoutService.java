@@ -2,7 +2,6 @@ package com.shopping.checkout.service;
 
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.repo.OrderListRepository;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

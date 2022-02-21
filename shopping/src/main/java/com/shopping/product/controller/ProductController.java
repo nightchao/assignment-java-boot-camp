@@ -1,15 +1,13 @@
 package com.shopping.product.controller;
 
+import com.exception.CheckoutProductNotFoundException;
+import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.service.CheckoutService;
 import com.shopping.product.db.Basket;
-import com.shopping.checkout.db.OrderList;
 import com.shopping.product.db.Product;
-import com.user.db.ScmUser;
-import com.exception.CheckoutProductNotFoundException;
-import com.exception.ProductNotFoundException;
-import com.exception.UserNotFoundException;
 import com.shopping.product.model.*;
 import com.shopping.product.service.ProductService;
+import com.user.db.ScmUser;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +32,6 @@ public class ProductController {
     @GetMapping("")
     public SearchResponse searchProduct(@RequestParam(required = false, defaultValue = "") String search) {
         List<Product> listProduct = productService.getListProduct(search);
-        if (listProduct.isEmpty()) {
-            return new SearchResponse(0, new ArrayList<>(1));
-        }
 
         List<ListSearchItem> listSearch = new ArrayList<>(1);
         ListSearchItem listSearchItem;
@@ -60,9 +55,6 @@ public class ProductController {
     @GetMapping("/{productId}")
     public DetailResponse getProductDetail(@PathVariable Integer productId) {
         Product product = productService.getProduct(productId);
-        if (product == null) {
-            throw new ProductNotFoundException(productId);
-        }
 
         DetailResponse response = new DetailResponse(listSizeMockup(), listImgMockup());
         response.setProductId(product.getProductId());
@@ -118,14 +110,7 @@ public class ProductController {
     @PostMapping("/basket")
     public AddBasketResponse addProductToBasket(@Valid @RequestBody() AddBasketRequest input) {
         ScmUser user = userService.getUser(input.getUserId());
-        if (user == null) {
-            throw new UserNotFoundException(input.getUserId());
-        }
-
         Product product = productService.getProduct(input.getProductId());
-        if (product == null) {
-            throw new ProductNotFoundException(input.getProductId());
-        }
 
         Basket basket = new Basket(user.getUserId(), product.getProductId());
         basket.setQuantity(input.getQuantity());
@@ -161,10 +146,6 @@ public class ProductController {
 
     private void setDataToListBasketItem(ListBasketItem listBasketItem, int productId) {
         Product product = productService.getProduct(productId);
-        if (product == null) {
-            return;
-        }
-
         listBasketItem.setProductId(productId);
         listBasketItem.setQuantity(product.getQuantity());
         listBasketItem.setName(product.getName());

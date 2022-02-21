@@ -2,8 +2,6 @@ package com.shopping.checkout.service;
 
 import com.shopping.checkout.db.OrderList;
 import com.shopping.checkout.repo.OrderListRepository;
-import com.shopping.product.db.Basket;
-import com.shopping.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 

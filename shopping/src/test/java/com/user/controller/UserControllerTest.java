@@ -1,8 +1,6 @@
 package com.user.controller;
 
 import com.exception.ExceptionModel;
-import com.shopping.product.db.Product;
-import com.shopping.product.model.DetailResponse;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.model.AddressResponse;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

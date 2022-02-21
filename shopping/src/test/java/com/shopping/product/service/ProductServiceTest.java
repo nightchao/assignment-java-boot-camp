@@ -1,10 +1,9 @@
 package com.shopping.product.service;
 
+import com.exception.ProductNotFoundException;
 import com.shopping.product.db.Basket;
-import com.shopping.checkout.db.OrderList;
 import com.shopping.product.db.Product;
 import com.shopping.product.repo.BasketRepository;
-import com.shopping.checkout.repo.OrderListRepository;
 import com.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -57,11 +57,11 @@ class ProductServiceTest {
         ProductService productService = new ProductService();
         productService.setProductRepository(productRepository);
         Product result01 = productService.getProduct(1);
-        Product result02 = productService.getProduct(2);
+        Exception thrown = assertThrows(ProductNotFoundException.class, () -> productService.getProduct(2));
 
         // Assert
         assertEquals("Cat 008", result01.getName());
-        assertNull(result02);
+        assertTrue(thrown.getMessage().contains("productId"));
     }
 
     @Test

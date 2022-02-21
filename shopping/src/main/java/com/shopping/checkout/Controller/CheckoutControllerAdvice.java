@@ -2,7 +2,6 @@ package com.shopping.checkout.Controller;
 
 import com.exception.ExceptionModel;
 import com.exception.OrderNotFoundException;
-import com.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

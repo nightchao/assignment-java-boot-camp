@@ -1,12 +1,12 @@
 package com.shopping.product.controller;
 
+import com.exception.ExceptionModel;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
-import com.user.db.ScmUser;
-import com.exception.ExceptionModel;
 import com.shopping.product.model.*;
 import com.shopping.product.repo.BasketRepository;
 import com.shopping.product.repo.ProductRepository;
+import com.user.db.ScmUser;
 import com.user.repo.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -192,9 +192,9 @@ class ProductControllerTest {
         listBasketItem.add(basket);
         when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listBasketItem));
 
-        Product product = new Product(11, "product name");
+        Product product = new Product(22, "product name");
         product.setQuantity(33);
-        when(productRepository.findById(11)).thenReturn(Optional.of(product));
+        when(productRepository.findById(22)).thenReturn(Optional.of(product));
 
         // Act
         GetBasketResponse result = testRestTemplate.getForObject("/product/basket/11", GetBasketResponse.class);
@@ -215,9 +215,9 @@ class ProductControllerTest {
         listBasketItem.add(basket);
         when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listBasketItem));
 
-        Product product = new Product(11, "product name");
+        Product product = new Product(22, "product name");
         product.setQuantity(33);
-        when(productRepository.findById(11)).thenReturn(Optional.of(product));
+        when(productRepository.findById(22)).thenReturn(Optional.of(product));
 
         CheckOutRequest checkOutRequest = new CheckOutRequest(11);
 

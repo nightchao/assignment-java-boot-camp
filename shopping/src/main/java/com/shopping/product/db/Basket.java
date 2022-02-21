@@ -20,7 +20,7 @@ public class Basket {
     private boolean isEms;
 
     public Basket() {
-        
+
     }
 
     public Basket(int userId, int productId) {

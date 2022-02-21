@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public DetailResponse getProductDetail(@PathVariable int productId) {
+    public DetailResponse getProductDetail(@PathVariable Integer productId) {
         Product product = productService.getProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException(productId);
@@ -133,7 +133,7 @@ public class ProductController {
     }
 
     @GetMapping("/basket/{userId}")
-    public GetBasketResponse showProductInBasket(@PathVariable int userId) {
+    public GetBasketResponse showProductInBasket(@PathVariable Integer userId) {
         List<ListBasketItem> listBasket = getListBasketItem(userId);
         int total = listBasket.size();
         return new GetBasketResponse(total, listBasket);

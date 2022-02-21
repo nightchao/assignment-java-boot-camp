@@ -1,7 +1,8 @@
 package com.shopping.product.controller;
 
+import com.shopping.checkout.service.CheckoutService;
 import com.shopping.product.db.Basket;
-import com.shopping.product.db.OrderList;
+import com.shopping.checkout.db.OrderList;
 import com.shopping.product.db.Product;
 import com.user.db.ScmUser;
 import com.exception.CheckoutProductNotFoundException;
@@ -23,6 +24,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CheckoutService checkoutService;
 
     @Autowired
     private UserService userService;
@@ -185,7 +189,7 @@ public class ProductController {
             listAllOrder.add(orderList);
         }
 
-        productService.saveOrderList(listAllOrder);
+        checkoutService.saveOrderList(listAllOrder);
         return new CheckOutResponse("Update Success", orderId);
     }
 }

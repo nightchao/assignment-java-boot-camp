@@ -1,17 +1,16 @@
-package com.shopping.product.db;
+package com.shopping.checkout.db;
 
 import javax.persistence.*;
 
 @Entity(name = "ORDER_LIST")
-@IdClass(OrderListId.class)
 public class OrderList {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
     private String orderId;
-
-    @Id
     private int userId;
-
     private int productId;
     private int quantity;
     private int price;
@@ -28,6 +27,14 @@ public class OrderList {
         this.quantity = quantity;
         this.price = price;
         this.vat = vat;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOrderId() {

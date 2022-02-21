@@ -1,10 +1,10 @@
 package com.shopping.product.service;
 
 import com.shopping.product.db.Basket;
-import com.shopping.product.db.OrderList;
+import com.shopping.checkout.db.OrderList;
 import com.shopping.product.db.Product;
 import com.shopping.product.repo.BasketRepository;
-import com.shopping.product.repo.OrderListRepository;
+import com.shopping.checkout.repo.OrderListRepository;
 import com.shopping.product.repo.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +26,6 @@ class ProductServiceTest {
 
     @Mock
     private BasketRepository basketRepository;
-
-    @Mock
-    private OrderListRepository orderListRepository;
 
     @Test
     void getListProduct() {
@@ -106,28 +103,5 @@ class ProductServiceTest {
 
         // Assert
         assertEquals(1, result.size());
-    }
-
-    @Test
-    void saveOrderList() {
-        // Arrange
-        List<OrderList> listAllOrder = new ArrayList<>();
-        String orderId = "OrderIdTest";
-        OrderList orderList = new OrderList(orderId, 11, 22, 33, 100, null);
-        listAllOrder.add(orderList);
-        when(orderListRepository.saveAll(anyList())).thenReturn(listAllOrder);
-
-        // Act
-        ProductService productService = new ProductService();
-        productService.setOrderListRepository(orderListRepository);
-        List<OrderList> listAllOrderTest = new ArrayList<>();
-        String orderIdTest = "OrderIdTest";
-        OrderList orderListTest = new OrderList(orderIdTest, 11, 22, 33, 100, null);
-        listAllOrderTest.add(orderListTest);
-        productService.saveOrderList(listAllOrderTest);
-
-        // Assert
-        assertNotNull(listAllOrderTest);
-        assertEquals(1, listAllOrderTest.size());
     }
 }

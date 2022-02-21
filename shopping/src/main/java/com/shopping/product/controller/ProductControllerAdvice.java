@@ -1,9 +1,9 @@
 package com.shopping.product.controller;
 
-import com.shopping.product.exception.CheckoutProductNotFoundException;
-import com.shopping.product.exception.ExceptionModel;
-import com.shopping.product.exception.ProductNotFoundException;
-import com.shopping.product.exception.UserNotFoundException;
+import com.exception.CheckoutProductNotFoundException;
+import com.exception.ExceptionModel;
+import com.exception.ProductNotFoundException;
+import com.exception.UserNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

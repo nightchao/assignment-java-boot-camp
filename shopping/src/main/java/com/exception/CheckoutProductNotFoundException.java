@@ -1,4 +1,4 @@
-package com.shopping.product.exception;
+package com.exception;
 
 public class CheckoutProductNotFoundException extends RuntimeException {
 

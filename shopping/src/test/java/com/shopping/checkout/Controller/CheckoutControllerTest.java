@@ -34,9 +34,9 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบธรรมดา")
     void case01() {
         // Arrange
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 44, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 44, null);
         List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderList);
+        listDb.add(orderBuy);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
 
         // Act
@@ -50,10 +50,10 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบด่วน")
     void case02() {
         // Arrange
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 44, null);
-        orderList.setEms(true);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 44, null);
+        orderBuy.setEms(true);
         List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderList);
+        listDb.add(orderBuy);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
 
         // Act
@@ -77,5 +77,23 @@ class CheckoutControllerTest {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    @DisplayName("แสดงข้อมูลสินค้าที่สั่งซื้อ โดยสั่ง orderId = order-test-id แล้วพบสินค้า 1 รายการ")
+    void case04() {
+        // Arrange
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        orderBuy.setName("test product");
+        List<OrderBuy> listDb = new ArrayList<>(1);
+        listDb.add(orderBuy);
+        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
+
+        // Act
+        ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
+
+        // Assert
+        assertFalse(result.getListShopping().isEmpty());
+        assertEquals(1, result.getListShopping().size());
     }
 }

@@ -16,6 +16,7 @@ public class OrderBuy {
     private int userId;
     private int productId;
     private int quantity;
+    private String name;
     private int price;
     private Integer vat;
     private boolean isEms;
@@ -63,6 +64,14 @@ public class OrderBuy {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getQuantity() {

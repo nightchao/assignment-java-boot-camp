@@ -160,14 +160,15 @@ public class ProductController {
         List<ListBasketItem> listBasket = getListBasketItem(input.getUserId());
 
         List<OrderBuy> listAllOrder = new ArrayList<>();
-        OrderBuy orderList;
+        OrderBuy orderBuy;
         UUID uuid = UUID.randomUUID();
         String orderId = uuid.toString();
         for (ListBasketItem item : listBasket) {
-            orderList = new OrderBuy(orderId, input.getUserId(), item.getProductId(),
+            orderBuy = new OrderBuy(orderId, input.getUserId(), item.getProductId(),
                     item.getQuantity(), priceFinal(item.getPrice(), item.getDiscount()), item.getVat());
-            orderList.setEms(item.isEms());
-            listAllOrder.add(orderList);
+            orderBuy.setName(item.getName());
+            orderBuy.setEms(item.isEms());
+            listAllOrder.add(orderBuy);
         }
 
         checkoutService.saveOrderBuy(listAllOrder);

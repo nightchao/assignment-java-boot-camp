@@ -1,0 +1,58 @@
+package com.shopping.checkout.Controller;
+
+import com.exception.OrderNotFoundException;
+import com.exception.ProductNotFoundException;
+import com.shopping.checkout.db.OrderList;
+import com.shopping.checkout.model.ShippingResponse;
+import com.shopping.checkout.service.CheckoutService;
+import com.shopping.product.db.Basket;
+import com.shopping.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+@RestController
+@RequestMapping(value = "/checkout")
+public class CheckoutController {
+
+    @Autowired
+    private CheckoutService checkoutService;
+
+    @GetMapping("/shipping/{orderId}")
+    public ShippingResponse getShipping(@PathVariable String orderId) {
+        List<OrderList> orderLists = checkoutService.getOrderById(orderId);
+        if (orderLists.isEmpty()) {
+            throw new OrderNotFoundException(orderId);
+        }
+
+        int countEms = 0;
+        for (OrderList orderList : orderLists) {
+            if (orderList.isEms()) {
+                countEms++;
+            }
+        }
+
+        // ตรงข้อมูลส่งสินค้า
+        // ถ้า isEms = true จะแสดงข้อความ ส่งแบบด่วน: ฟรี
+        // ถ้า isEms = false จะแสดงข้อความ ส่งแบบธรรมดา: ฟรี
+        boolean isEms = countEms == orderLists.size();
+        return new ShippingResponse(isEms, deliveryTime(isEms));
+    }
+
+    private String deliveryTime(boolean isEms) {
+        Calendar calendar = Calendar.getInstance();
+        if (isEms) {
+            calendar.add(Calendar.DAY_OF_YEAR, 3);
+        } else {
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+        }
+        Date deliveryDate = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+        return simpleDateFormat.format(deliveryDate);
+    }
+}

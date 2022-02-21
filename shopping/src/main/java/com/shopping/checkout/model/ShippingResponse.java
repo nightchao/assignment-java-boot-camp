@@ -2,24 +2,24 @@ package com.shopping.checkout.model;
 
 public class ShippingResponse {
 
-    private boolean isEms;
+    private Boolean isEms;
     private String deliveryTime;
 
     public ShippingResponse() {
 
     }
 
-    public ShippingResponse(boolean isEms, String deliveryTime) {
+    public ShippingResponse(Boolean isEms, String deliveryTime) {
         this.isEms = isEms;
         this.deliveryTime = deliveryTime;
     }
 
-    public boolean isEms() {
+    public Boolean getIsEms() {
         return isEms;
     }
 
-    public void setEms(boolean ems) {
-        isEms = ems;
+    public void setIdEms(Boolean isEms) {
+        this.isEms = isEms;
     }
 
     public String getDeliveryTime() {

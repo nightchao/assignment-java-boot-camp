@@ -43,7 +43,7 @@ class CheckoutControllerTest {
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
 
         // Assert
-        assertFalse(result.getEms());
+        assertFalse(result.getIsEms());
     }
 
     @Test
@@ -60,7 +60,7 @@ class CheckoutControllerTest {
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
 
         // Assert
-        assertTrue(result.getEms());
+        assertTrue(result.getIsEms());
     }
 
     @Test

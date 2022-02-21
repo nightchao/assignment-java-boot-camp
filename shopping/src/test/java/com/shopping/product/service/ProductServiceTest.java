@@ -1,6 +1,8 @@
 package com.shopping.product.service;
 
+import com.exception.BasketItemNotFoundException;
 import com.exception.ProductNotFoundException;
+import com.exception.SearchNotFoundException;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
 import com.shopping.product.repo.BasketRepository;
@@ -41,9 +43,11 @@ class ProductServiceTest {
         ProductService productService = new ProductService();
         productService.setProductRepository(productRepository);
         List<Product> result = productService.getListProduct("AT");
+        Exception thrown = assertThrows(SearchNotFoundException.class, () -> productService.getListProduct("XXX"));
 
         // Assert
         assertEquals(2, result.size());
+        assertTrue(thrown.getMessage().contains("Search not found:"));
     }
 
     @Test
@@ -100,8 +104,11 @@ class ProductServiceTest {
         ProductService productService = new ProductService();
         productService.setBasketRepository(basketRepository);
         List<Basket> result = productService.getProductInBasket(11);
+        Exception thrown = assertThrows(BasketItemNotFoundException.class, () -> productService.getProductInBasket(22));
+
 
         // Assert
         assertEquals(1, result.size());
+        assertTrue(thrown.getMessage().contains("Product in basket not found userId:"));
     }
 }

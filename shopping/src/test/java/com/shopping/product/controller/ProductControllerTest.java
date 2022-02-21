@@ -1,7 +1,6 @@
 package com.shopping.product.controller;
 
 import com.exception.ExceptionModel;
-import com.exception.SearchNotFoundException;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
 import com.shopping.product.model.*;

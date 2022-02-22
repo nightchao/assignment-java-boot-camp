@@ -1,9 +1,7 @@
 package com.shopping.checkout.db;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name = "SUMMARY")
 public class Summary {
@@ -14,8 +12,13 @@ public class Summary {
 
     private String orderId;
     private String payer;
-    private String transactionDate;
-    private String expiredDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date transactionDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expiredDate;
+
     private String payee;
     private String detail;
     private int amount;
@@ -51,20 +54,36 @@ public class Summary {
         this.payer = payer;
     }
 
-    public String getTransactionDate() {
+    public Date getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(String transactionDate) {
+    public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
 
-    public String getExpiredDate() {
+    public Date getExpiredDate() {
         return expiredDate;
     }
 
-    public void setExpiredDate(String expiredDate) {
+    public void setExpiredDate(Date expiredDate) {
         this.expiredDate = expiredDate;
+    }
+
+    public Boolean getReceiptVat() {
+        return isReceiptVat;
+    }
+
+    public void setReceiptVat(Boolean receiptVat) {
+        isReceiptVat = receiptVat;
+    }
+
+    public Boolean getGetNews() {
+        return isGetNews;
+    }
+
+    public void setGetNews(Boolean getNews) {
+        isGetNews = getNews;
     }
 
     public String getPayee() {

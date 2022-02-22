@@ -135,15 +135,12 @@ public class CheckoutController {
         summary.setIsGetNews(input.getIsGetNews());
         summary.setIsReceiptVat(input.getIsReceiptVat());
         checkoutService.saveSummary(summary);
-        return new ConfirmOrderResponse("Update Success");
+        return new ConfirmOrderResponse(summary.getInvoiceNo(),"Update Success");
     }
 
-    private String getDateTime(Calendar calendar, int day) {
+    private Date getDateTime(Calendar calendar, int day) {
         calendar.add(Calendar.DAY_OF_YEAR, day);
-        Date date = calendar.getTime();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
-        return simpleDateFormat.format(date);
+        return calendar.getTime();
     }
 
     private int findAmount(List<OrderBuy> orderBuys) {

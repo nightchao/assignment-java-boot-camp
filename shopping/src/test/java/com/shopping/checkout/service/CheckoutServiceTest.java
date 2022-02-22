@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,8 +119,8 @@ class CheckoutServiceTest {
         Summary summary = new Summary();
         summary.setOrderId("order-test-id");
         summary.setPayer("test payer");
-        summary.setTransactionDate("22/02/2022 17:16");
-        summary.setExpiredDate("23/02/2022 17:16");
+        summary.setTransactionDate(new Date());
+        summary.setExpiredDate(new Date());
         summary.setPayee("test payee");
         summary.setDetail("test detail");
         summary.setAmount(100);
@@ -134,8 +135,8 @@ class CheckoutServiceTest {
         Summary summaryTest = new Summary();
         summaryTest.setOrderId("order-test-id");
         summaryTest.setPayer("test payer");
-        summaryTest.setTransactionDate("22/02/2022 17:16");
-        summaryTest.setExpiredDate("23/02/2022 17:16");
+        summaryTest.setTransactionDate(new Date());
+        summaryTest.setExpiredDate(new Date());
         summaryTest.setPayee("test payee");
         summaryTest.setDetail("test detail");
         summaryTest.setAmount(100);

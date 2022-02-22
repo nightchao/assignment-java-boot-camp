@@ -123,6 +123,7 @@ public class CheckoutController {
         ScmUser user = userService.getUser(userId);
 
         Summary summary = new Summary();
+        summary.setOrderId(input.getOrderId());
         summary.setPayer(user.getFullName());
         Calendar calendar = Calendar.getInstance();
         summary.setTransactionDate(getDateTime(calendar, 0));

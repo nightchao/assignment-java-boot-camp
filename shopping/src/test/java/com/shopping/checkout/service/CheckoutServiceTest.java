@@ -116,6 +116,7 @@ class CheckoutServiceTest {
     void saveSummary() {
         // Arrange
         Summary summary = new Summary();
+        summary.setOrderId("order-test-id");
         summary.setPayer("test payer");
         summary.setTransactionDate("22/02/2022 17:16");
         summary.setExpiredDate("23/02/2022 17:16");
@@ -131,6 +132,7 @@ class CheckoutServiceTest {
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setSummaryRepository(summaryRepository);
         Summary summaryTest = new Summary();
+        summaryTest.setOrderId("order-test-id");
         summaryTest.setPayer("test payer");
         summaryTest.setTransactionDate("22/02/2022 17:16");
         summaryTest.setExpiredDate("23/02/2022 17:16");

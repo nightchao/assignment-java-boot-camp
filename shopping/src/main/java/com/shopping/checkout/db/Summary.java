@@ -10,8 +10,9 @@ public class Summary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int summaryId;
+    private Integer summaryId;
 
+    private String orderId;
     private String payer;
     private String transactionDate;
     private String expiredDate;
@@ -26,12 +27,20 @@ public class Summary {
 
     }
 
-    public int getSummaryId() {
+    public Integer getSummaryId() {
         return summaryId;
     }
 
-    public void setSummaryId(int summaryId) {
+    public void setSummaryId(Integer summaryId) {
         this.summaryId = summaryId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getPayer() {

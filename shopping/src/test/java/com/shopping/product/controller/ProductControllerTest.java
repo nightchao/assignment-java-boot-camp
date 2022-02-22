@@ -93,17 +93,17 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 1 แล้วเจอสินค้าที่ชื่อว่า test name")
+    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 1 แล้วเจอสินค้าที่ชื่อว่า test product")
     void case04() {
         // Arrange
-        Product product = new Product(1, "test name");
+        Product product = new Product(1, "test product");
         when(productRepository.findById(1)).thenReturn(Optional.of(product));
 
         // Act
         DetailResponse result = testRestTemplate.getForObject("/product/1", DetailResponse.class);
 
         // Assert
-        assertEquals("test name", result.getName());
+        assertEquals("test product", result.getName());
     }
 
     @Test()
@@ -126,10 +126,10 @@ class ProductControllerTest {
     @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
     void case06() {
         // Arrange
-        ScmUser user = new ScmUser(11, "user name");
+        ScmUser user = new ScmUser(11, "test fullName");
         when(userRepository.findById(11)).thenReturn(Optional.of(user));
 
-        Product product = new Product(22, "product name");
+        Product product = new Product(22, "test product");
         product.setQuantity(33);
         when(productRepository.findById(22)).thenReturn(Optional.of(product));
 
@@ -164,7 +164,7 @@ class ProductControllerTest {
     @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
     void case08() {
         // Arrange
-        ScmUser user = new ScmUser(11, "user name");
+        ScmUser user = new ScmUser(11, "test fullName");
         when(userRepository.findById(11)).thenReturn(Optional.of(user));
 
         when(productRepository.findById(22)).thenReturn(Optional.empty());
@@ -193,7 +193,7 @@ class ProductControllerTest {
         listBasketItem.add(basket);
         when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listBasketItem));
 
-        Product product = new Product(22, "product name");
+        Product product = new Product(22, "test product");
         product.setQuantity(33);
         when(productRepository.findById(22)).thenReturn(Optional.of(product));
 

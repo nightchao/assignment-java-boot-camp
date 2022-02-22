@@ -17,15 +17,6 @@ public class ExceptionModel {
     public ExceptionModel() {
     }
 
-    public ExceptionModel(Date timestamp, int status, String error, String message, String path) {
-        super();
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.path = path;
-    }
-
     public Date getTimestamp() {
         return timestamp;
     }

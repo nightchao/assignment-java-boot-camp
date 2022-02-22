@@ -35,6 +35,10 @@ public class CheckoutService {
         this.paymentRepository = paymentRepository;
     }
 
+    public void setSummaryRepository(SummaryRepository summaryRepository) {
+        this.summaryRepository = summaryRepository;
+    }
+
     @Transactional
     public void saveOrderBuy(List<OrderBuy> listAllOrder) {
         this.orderBuyRepository.saveAll(listAllOrder);

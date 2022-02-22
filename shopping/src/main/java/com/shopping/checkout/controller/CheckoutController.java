@@ -2,17 +2,16 @@ package com.shopping.checkout.controller;
 
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.db.Summary;
 import com.shopping.checkout.model.*;
 import com.shopping.checkout.service.CheckoutService;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -115,5 +114,43 @@ public class CheckoutController {
             listPaymentMethod.add(paymentMethodItem);
         }
         return new PaymentMethodResponse(listPaymentMethod);
+    }
+
+    @PutMapping("/{orderId}")
+    public ConfirmOrderResponse updateOrder(@Valid @RequestBody ConfirmOrderRequest input) {
+        List<OrderBuy> orderBuys = checkoutService.getOrderById(input.getOrderId());
+        int userId = orderBuys.get(0).getUserId();
+        ScmUser user = userService.getUser(userId);
+
+        Summary summary = new Summary();
+        summary.setPayer(user.getFullName());
+        Calendar calendar = Calendar.getInstance();
+        summary.setTransactionDate(getDateTime(calendar, 0));
+        summary.setExpiredDate(getDateTime(calendar, 1));
+        summary.setPayee("องค์ Saladar");
+        summary.setDetail("Saladar");
+        summary.setAmount(findAmount(orderBuys));
+        summary.setPaymentMethodId(input.getPaymentMethodId());
+        summary.setIsGetNews(input.getIsGetNews());
+        summary.setIsReceiptVat(input.getIsReceiptVat());
+        checkoutService.saveSummary(summary);
+        return new ConfirmOrderResponse("Update Success");
+    }
+
+    private String getDateTime(Calendar calendar, int day) {
+        calendar.add(Calendar.DAY_OF_YEAR, day);
+        Date date = calendar.getTime();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
+        return simpleDateFormat.format(date);
+    }
+
+    private int findAmount(List<OrderBuy> orderBuys) {
+        int total = 0;
+        for (OrderBuy orderBuy : orderBuys) {
+            total = total + orderBuy.getPrice();
+        }
+
+        return total;
     }
 }

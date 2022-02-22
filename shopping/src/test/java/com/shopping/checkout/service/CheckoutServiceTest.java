@@ -4,8 +4,12 @@ import com.exception.OrderNotFoundException;
 import com.exception.PaymentNotFoundException;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.db.Summary;
 import com.shopping.checkout.repo.OrderBuyRepository;
 import com.shopping.checkout.repo.PaymentRepository;
+import com.shopping.checkout.repo.SummaryRepository;
+import com.shopping.product.db.Basket;
+import com.shopping.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +31,9 @@ class CheckoutServiceTest {
 
     @Mock
     private PaymentRepository paymentRepository;
+
+    @Mock
+    private SummaryRepository summaryRepository;
 
     @Test
     void saveOrderBuy() {
@@ -102,5 +110,42 @@ class CheckoutServiceTest {
 
         // Assert
         assertTrue(thrown.getMessage().contains("Payment method not found"));
+    }
+
+    @Test
+    void saveSummary() {
+        // Arrange
+        Summary summary = new Summary();
+        summary.setPayer("test payer");
+        summary.setTransactionDate("22/02/2022 17:16");
+        summary.setExpiredDate("23/02/2022 17:16");
+        summary.setPayee("test payee");
+        summary.setDetail("test detail");
+        summary.setAmount(100);
+        summary.setPaymentMethodId(111);
+        summary.setIsReceiptVat(true);
+        summary.setIsGetNews(true);
+        when(summaryRepository.save(any(Summary.class))).thenReturn(summary);
+
+        // Act
+        CheckoutService checkoutService = new CheckoutService();
+        checkoutService.setSummaryRepository(summaryRepository);
+        Summary summaryTest = new Summary();
+        summaryTest.setPayer("test payer");
+        summaryTest.setTransactionDate("22/02/2022 17:16");
+        summaryTest.setExpiredDate("23/02/2022 17:16");
+        summaryTest.setPayee("test payee");
+        summaryTest.setDetail("test detail");
+        summaryTest.setAmount(100);
+        summaryTest.setPaymentMethodId(111);
+        summaryTest.setIsReceiptVat(true);
+        summaryTest.setIsGetNews(true);
+        checkoutService.saveSummary(summaryTest);
+
+        // Assert
+        assertNotNull(summaryTest);
+        assertEquals("test payer", summaryTest.getPayer());
+        assertEquals(111, summaryTest.getPaymentMethodId());
+        assertTrue(summaryTest.getIsGetNews());
     }
 }

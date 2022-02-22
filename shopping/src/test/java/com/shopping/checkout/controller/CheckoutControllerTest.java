@@ -3,10 +3,13 @@ package com.shopping.checkout.controller;
 import com.exception.ExceptionModel;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.model.ConfirmOrderRequest;
+import com.shopping.checkout.model.ConfirmOrderResponse;
 import com.shopping.checkout.model.PaymentMethodResponse;
 import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.checkout.repo.OrderBuyRepository;
 import com.shopping.checkout.repo.PaymentRepository;
+import com.shopping.checkout.repo.SummaryRepository;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.repo.AddressRepository;
@@ -17,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,9 @@ class CheckoutControllerTest {
 
     @MockBean
     private PaymentRepository paymentRepository;
+
+    @MockBean
+    private SummaryRepository summaryRepository;
 
     private void initDataOrderBuy(boolean isEms) {
         OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
@@ -225,5 +231,71 @@ class CheckoutControllerTest {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    private ConfirmOrderRequest requestConfirmOrder() {
+        ConfirmOrderRequest confirmOrderRequest = new ConfirmOrderRequest();
+        confirmOrderRequest.setOrderId("order-test-id");
+        confirmOrderRequest.setPaymentMethodId(111);
+        confirmOrderRequest.setIsReceiptVat(true);
+        confirmOrderRequest.setIsGetNews(true);
+        return confirmOrderRequest;
+    }
+
+    private HttpEntity<ConfirmOrderRequest> getEntityConfirmOrder() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(requestConfirmOrder(), headers);
+    }
+
+    @Test
+    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ message = Update Success")
+    void case10() {
+        // Arrange
+        initDataOrderBuy(false);
+        initDataUser();
+
+        // Act
+        ResponseEntity<ConfirmOrderResponse> result = testRestTemplate.exchange("/checkout/order-test-id", HttpMethod.PUT, getEntityConfirmOrder(), ConfirmOrderResponse.class);
+
+        // Assert
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        assertNotNull(result.getBody());
+        assertEquals("Update Success", result.getBody().getMessage());
+    }
+
+    @Test
+    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี Order not found")
+    void case11() {
+        // Arrange
+        initDataOrderBuyCaseEmpty();
+
+        // Act
+        ResponseEntity<ExceptionModel> exception = testRestTemplate.exchange("/checkout/order-test-id", HttpMethod.PUT, getEntityConfirmOrder(), ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "Order id: order-test-id not found";
+        assertNotNull(exception.getBody());
+        String actualMessage = exception.getBody().getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี User not found")
+    void case12() {
+        // Arrange
+        initDataOrderBuy(false);
+        initDataUserCaseEmpty();
+
+        // Act
+        ResponseEntity<ExceptionModel> exception = testRestTemplate.exchange("/checkout/order-test-id", HttpMethod.PUT, getEntityConfirmOrder(), ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "User id: 11 not found";
+        assertNotNull(exception.getBody());
+        String actualMessage = exception.getBody().getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
     }
 }

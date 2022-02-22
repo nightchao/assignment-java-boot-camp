@@ -1,6 +1,7 @@
 package com.shopping.product.controller;
 
 import com.exception.ExceptionModel;
+import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.product.db.Basket;
 import com.shopping.product.db.Product;
 import com.shopping.product.model.*;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;

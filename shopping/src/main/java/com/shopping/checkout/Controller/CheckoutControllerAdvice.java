@@ -1,7 +1,9 @@
 package com.shopping.checkout.Controller;
 
+import com.exception.AddressNotFoundException;
 import com.exception.ExceptionModel;
 import com.exception.OrderNotFoundException;
+import com.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +31,20 @@ public class CheckoutControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionModel orderNotFound(OrderNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
+    }
+
+    @ExceptionHandler(AddressNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel addressNotFound(AddressNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel userNotFound(UserNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 }

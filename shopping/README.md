@@ -42,7 +42,6 @@
 
 | Method | Url                          | Description                  | Sample Valid Request Body | Sample Valid Response Body                                                                             |
 |--------|------------------------------|------------------------------|---------------------------|--------------------------------------------------------------------------------------------------------|
-| GET    | /user/{userId}/address       | show address user            | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Request-for-show-address-user) |
 | GET    | /checkout/shipping/{orderId} | show shipping and list order | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-shipping)    |
 
 ## 7. แสดงช่องทางการชำระเงิน

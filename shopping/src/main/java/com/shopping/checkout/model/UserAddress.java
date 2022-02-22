@@ -1,10 +1,10 @@
-package com.user.model;
+package com.shopping.checkout.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.user.db.Address;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddressResponse extends Address {
+public class UserAddress extends Address {
 
     private String fullName;
     private String email;

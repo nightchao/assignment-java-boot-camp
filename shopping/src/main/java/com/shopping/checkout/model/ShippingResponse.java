@@ -9,14 +9,14 @@ public class ShippingResponse {
     private String deliveryTime;
     private int total;
     private List<ListShoppingItem> listShopping;
+    private UserAddress userAddress;
 
     public ShippingResponse() {
 
     }
 
-    public ShippingResponse(Boolean isEms, String deliveryTime) {
-        this.isEms = isEms;
-        this.deliveryTime = deliveryTime;
+    public ShippingResponse(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getOrderId() {
@@ -39,7 +39,7 @@ public class ShippingResponse {
         return isEms;
     }
 
-    public void setIdEms(Boolean isEms) {
+    public void setIsEms(Boolean isEms) {
         this.isEms = isEms;
     }
 
@@ -57,5 +57,13 @@ public class ShippingResponse {
 
     public void setListShopping(List<ListShoppingItem> listShopping) {
         this.listShopping = listShopping;
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
     }
 }

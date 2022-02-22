@@ -53,6 +53,7 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public DetailResponse getProductDetail(@PathVariable Integer productId) {
+        System.out.println("Check getProductDetail");
         Product product = productService.getProduct(productId);
 
         DetailResponse response = new DetailResponse(listSizeMockup(), listImgMockup());

@@ -10,7 +10,7 @@ public class Summary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer summaryId;
+    private Integer invoiceNo;
 
     private String orderId;
     private String payer;
@@ -27,12 +27,12 @@ public class Summary {
 
     }
 
-    public Integer getSummaryId() {
-        return summaryId;
+    public Integer getInvoiceNo() {
+        return invoiceNo;
     }
 
-    public void setSummaryId(Integer summaryId) {
-        this.summaryId = summaryId;
+    public void setInvoiceNo(Integer invoiceNo) {
+        this.invoiceNo = invoiceNo;
     }
 
     public String getOrderId() {

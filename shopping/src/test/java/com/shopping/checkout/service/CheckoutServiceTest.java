@@ -8,8 +8,6 @@ import com.shopping.checkout.db.Summary;
 import com.shopping.checkout.repo.OrderBuyRepository;
 import com.shopping.checkout.repo.PaymentRepository;
 import com.shopping.checkout.repo.SummaryRepository;
-import com.shopping.product.db.Basket;
-import com.shopping.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -64,17 +62,19 @@ class CheckoutServiceTest {
         listDb.add(orderList);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
         when(orderBuyRepository.findByOrderId("order-test-id-e")).thenReturn(Optional.empty());
-
+        when(orderBuyRepository.findByOrderId("order-test-id-f")).thenReturn(Optional.of(new ArrayList<>(1)));
 
         // Act
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setOrderBuyRepository(orderBuyRepository);
         List<OrderBuy> result = checkoutService.getOrderById("order-test-id");
-        Exception thrown = assertThrows(OrderNotFoundException.class, () -> checkoutService.getOrderById("order-test-id-e"));
+        Exception thrown01 = assertThrows(OrderNotFoundException.class, () -> checkoutService.getOrderById("order-test-id-e"));
+        Exception thrown02 = assertThrows(OrderNotFoundException.class, () -> checkoutService.getOrderById("order-test-id-f"));
 
         // Assert
         assertEquals(1, result.size());
-        assertTrue(thrown.getMessage().contains("Order id:"));
+        assertTrue(thrown01.getMessage().contains("Order id:"));
+        assertTrue(thrown02.getMessage().contains("Order id:"));
     }
 
     @Test

@@ -1,9 +1,8 @@
 package com.shopping.checkout.Controller;
 
 import com.shopping.checkout.db.OrderBuy;
-import com.shopping.checkout.model.ListShoppingItem;
-import com.shopping.checkout.model.ShippingResponse;
-import com.shopping.checkout.model.UserAddress;
+import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.model.*;
 import com.shopping.checkout.service.CheckoutService;
 import com.user.db.Address;
 import com.user.db.ScmUser;
@@ -99,5 +98,19 @@ public class CheckoutController {
         userAddress.setProvince(address.getProvince());
         userAddress.setTelephone(address.getTelephone());
         response.setUserAddress(userAddress);
+    }
+
+    @GetMapping("/payment/method")
+    public PaymentMethodResponse getPaymentMethod() {
+        List<Payment> paymentList = checkoutService.getAllPayment();
+        List<ListPaymentMethodItem> listPaymentMethod = new ArrayList<>(1);
+        ListPaymentMethodItem paymentMethodItem;
+        for (Payment payment : paymentList) {
+            paymentMethodItem = new ListPaymentMethodItem();
+            paymentMethodItem.setPaymentMethodId(payment.getPaymentId());
+            paymentMethodItem.setName(payment.getName());
+            listPaymentMethod.add(paymentMethodItem);
+        }
+        return new PaymentMethodResponse(listPaymentMethod);
     }
 }

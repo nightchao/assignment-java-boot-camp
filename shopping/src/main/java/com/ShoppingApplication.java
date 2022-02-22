@@ -1,5 +1,7 @@
 package com;
 
+import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.repo.PaymentRepository;
 import com.shopping.product.db.Product;
 import com.shopping.product.repo.ProductRepository;
 import com.user.db.Address;
@@ -28,6 +30,9 @@ public class ShoppingApplication {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ShoppingApplication.class, args);
     }
@@ -36,6 +41,7 @@ public class ShoppingApplication {
     public void initData() {
         addUserInit();
         addProductInit();
+        addPaymentMethodInit();
     }
 
     private void addUserInit() {
@@ -116,5 +122,16 @@ public class ShoppingApplication {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         return calendar.getTime();
+    }
+
+    private void addPaymentMethodInit() {
+        Payment payment01 = new Payment(111, "Debit or Credit card");
+        Payment payment02 = new Payment(222, "Book bank");
+        Payment payment03 = new Payment(333, "Cash on delivery");
+        List<Payment> listDb = new ArrayList<>(1);
+        listDb.add(payment01);
+        listDb.add(payment02);
+        listDb.add(payment03);
+        paymentRepository.saveAll(listDb);
     }
 }

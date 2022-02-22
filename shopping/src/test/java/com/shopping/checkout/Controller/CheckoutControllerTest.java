@@ -2,8 +2,11 @@ package com.shopping.checkout.Controller;
 
 import com.exception.ExceptionModel;
 import com.shopping.checkout.db.OrderBuy;
+import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.model.PaymentMethodResponse;
 import com.shopping.checkout.model.ShippingResponse;
 import com.shopping.checkout.repo.OrderBuyRepository;
+import com.shopping.checkout.repo.PaymentRepository;
 import com.user.db.Address;
 import com.user.db.ScmUser;
 import com.user.repo.AddressRepository;
@@ -39,6 +42,9 @@ class CheckoutControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private PaymentRepository paymentRepository;
 
     @Test
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบธรรมดา")
@@ -198,6 +204,46 @@ class CheckoutControllerTest {
 
         // Assert
         String expectedMessage = "Address not found userId: 11";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    @DisplayName("แสดงข้อมูลวิธีการชำระเงินทั้งหมด")
+    void case08() {
+        // Arrange
+        Payment payment01 = new Payment(1, "A Method");
+        Payment payment02 = new Payment(2, "B Method");
+        Payment payment03 = new Payment(3, "C Method");
+        List<Payment> listDb = new ArrayList<>(1);
+        listDb.add(payment01);
+        listDb.add(payment02);
+        listDb.add(payment03);
+        when(paymentRepository.findAll()).thenReturn(listDb);
+
+        // Act
+        PaymentMethodResponse result = testRestTemplate.getForObject("/checkout/payment/method", PaymentMethodResponse.class);
+
+        // Assert
+        assertFalse(result.getListPaymentMethod().isEmpty());
+        assertEquals(3, result.getListPaymentMethod().size());
+        assertEquals("A Method", result.getListPaymentMethod().get(0).getName());
+        assertEquals("B Method", result.getListPaymentMethod().get(1).getName());
+        assertEquals("C Method", result.getListPaymentMethod().get(2).getName());
+    }
+
+    @Test
+    @DisplayName("แสดงข้อมูลวิธีการชำระเงินทั้งหมด แล้วได้รับ JSON Object error กรณีไม่มีข้อมูล")
+    void case09() {
+        // Arrange
+        when(paymentRepository.findAll()).thenReturn(new ArrayList<>(1));
+
+        // Act
+        ExceptionModel exception = testRestTemplate.getForObject("/checkout/payment/method", ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "Payment method not found";
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));

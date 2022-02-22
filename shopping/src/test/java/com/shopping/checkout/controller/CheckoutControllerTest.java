@@ -46,21 +46,41 @@ class CheckoutControllerTest {
     @MockBean
     private PaymentRepository paymentRepository;
 
+    private void initDataOrderBuy(boolean isEms) {
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
+        orderBuy.setName("test product");
+        orderBuy.setEms(isEms);
+        List<OrderBuy> listDb = new ArrayList<>(1);
+        listDb.add(orderBuy);
+        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
+    }
+
+    private void initDataOrderBuyCaseEmpty() {
+        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.empty());
+    }
+
+    private void initDataUser() {
+        ScmUser user = new ScmUser(11, "test fullName");
+        when(userRepository.findById(11)).thenReturn(Optional.of(user));
+    }
+
+    private void initDataUserCaseEmpty() {
+        when(userRepository.findById(11)).thenReturn(Optional.empty());
+    }
+
+    private void initAddress() {
+        Address address = new Address(55, 11);
+        address.setAddress("test address");
+        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+    }
+
     @Test
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบธรรมดา")
     void case01() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        ScmUser user = new ScmUser(11, "user name");
-        when(userRepository.findById(11)).thenReturn(Optional.of(user));
-
-        Address address = new Address(55, 11);
-        address.setAddress("test address");
-        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+        initDataOrderBuy(false);
+        initDataUser();
+        initAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -73,18 +93,9 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบด่วน")
     void case02() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        orderBuy.setEms(true);
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        ScmUser user = new ScmUser(11, "user name");
-        when(userRepository.findById(11)).thenReturn(Optional.of(user));
-
-        Address address = new Address(55, 11);
-        address.setAddress("test address");
-        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+        initDataOrderBuy(true);
+        initDataUser();
+        initAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -97,7 +108,7 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping แล้วได้รับ JSON Object error กรณี Order id not found")
     void case03() {
         // Arrange
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.empty());
+        initDataOrderBuyCaseEmpty();
 
         // Act
         ExceptionModel exception = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ExceptionModel.class);
@@ -113,18 +124,9 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูลสินค้าที่สั่งซื้อ โดยสั่ง orderId = order-test-id แล้วพบสินค้า 1 รายการ")
     void case04() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        orderBuy.setName("test product");
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        ScmUser user = new ScmUser(11, "user name");
-        when(userRepository.findById(11)).thenReturn(Optional.of(user));
-
-        Address address = new Address(55, 11);
-        address.setAddress("test address");
-        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+        initDataOrderBuy(false);
+        initDataUser();
+        initAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -138,18 +140,9 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้ผลลัพธ์โดย address = test address")
     void case05() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        orderBuy.setName("test product");
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        ScmUser user = new ScmUser(11, "test fullName");
-        when(userRepository.findById(11)).thenReturn(Optional.of(user));
-
-        Address address = new Address(55, 11);
-        address.setAddress("test address");
-        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+        initDataOrderBuy(false);
+        initDataUser();
+        initAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -162,17 +155,9 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี User not found")
     void case06() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        orderBuy.setName("test product");
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        when(userRepository.findById(11)).thenReturn(Optional.empty());
-
-        Address address = new Address(55, 11);
-        address.setAddress("test address");
-        when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
+        initDataOrderBuy(false);
+        initDataUserCaseEmpty();
+        initAddress();
 
         // Act
         ExceptionModel exception = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ExceptionModel.class);
@@ -188,15 +173,8 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี Address not found")
     void case07() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        orderBuy.setName("test product");
-        List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderBuy);
-        when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
-
-        ScmUser user = new ScmUser(11, "test fullName");
-        when(userRepository.findById(11)).thenReturn(Optional.of(user));
-
+        initDataOrderBuy(false);
+        initDataUser();
         when(addressRepository.findAddress(11)).thenReturn(Optional.empty());
 
         // Act

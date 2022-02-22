@@ -50,7 +50,7 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบธรรมดา")
     void case01() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
@@ -73,7 +73,7 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบด่วน")
     void case02() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         orderBuy.setEms(true);
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
@@ -113,7 +113,7 @@ class CheckoutControllerTest {
     @DisplayName("แสดงข้อมูลสินค้าที่สั่งซื้อ โดยสั่ง orderId = order-test-id แล้วพบสินค้า 1 รายการ")
     void case04() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         orderBuy.setName("test product");
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
@@ -138,7 +138,7 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้ผลลัพธ์โดย address = test address")
     void case05() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         orderBuy.setName("test product");
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
@@ -162,7 +162,7 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี User not found")
     void case06() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         orderBuy.setName("test product");
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
@@ -188,7 +188,7 @@ class CheckoutControllerTest {
     @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี Address not found")
     void case07() {
         // Arrange
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
         orderBuy.setName("test product");
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);

@@ -38,6 +38,12 @@ public class CheckoutController {
     }
 
     private void getDelivery(ShippingResponse response, List<OrderBuy> orderBuys) {
+        boolean isEms = checkIsEms(orderBuys);
+        response.setIsEms(isEms);
+        response.setDeliveryTime(deliveryTime(isEms));
+    }
+
+    private boolean checkIsEms(List<OrderBuy> orderBuys) {
         int countEms = 0;
         for (OrderBuy orderList : orderBuys) {
             if (orderList.isEms()) {
@@ -48,9 +54,7 @@ public class CheckoutController {
         // ตรงข้อมูลส่งสินค้า
         // ถ้า isEms = true หน้า front จะแสดงข้อความ ส่งแบบด่วน: ฟรี
         // ถ้า isEms = false หน้า front จะแสดงข้อความ ส่งแบบธรรมดา: ฟรี
-        boolean isEms = countEms == orderBuys.size();
-        response.setIsEms(isEms);
-        response.setDeliveryTime(deliveryTime(isEms));
+        return countEms == orderBuys.size();
     }
 
     private String deliveryTime(boolean isEms) {
@@ -75,7 +79,6 @@ public class CheckoutController {
             shoppingItem.setQuantity(item.getQuantity());
             shoppingItem.setName(item.getName());
             shoppingItem.setPrice(item.getPrice());
-            shoppingItem.setVat(item.getVat());
             listShopping.add(shoppingItem);
         }
 

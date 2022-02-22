@@ -166,7 +166,7 @@ public class ProductController {
         String orderId = uuid.toString();
         for (ListBasketItem item : listBasket) {
             orderBuy = new OrderBuy(orderId, input.getUserId(), item.getProductId(),
-                    item.getQuantity(), priceFinal(item.getPrice(), item.getDiscount()), item.getVat());
+                    item.getQuantity(), priceFinal(item.getPrice(), item.getDiscount(), item.getVat()));
             orderBuy.setName(item.getName());
             orderBuy.setEms(item.isEms());
             listAllOrder.add(orderBuy);
@@ -176,7 +176,12 @@ public class ProductController {
         return new CheckOutResponse("Update Success", orderId);
     }
 
-    private int priceFinal(int price, int discount) {
-        return price * (100 - discount) / 100;
+    private int priceFinal(int price, int discount, Integer vat) {
+        int finalPrice = price * (100 - discount) / 100;
+
+        if (vat != null) {
+            finalPrice = finalPrice * (vat / 100);
+        }
+        return finalPrice;
     }
 }

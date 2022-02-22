@@ -31,7 +31,7 @@ class CheckoutServiceTest {
     void saveOrderBuy() {
         // Arrange
         List<OrderBuy> listAllOrder = new ArrayList<>();
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 100);
         listAllOrder.add(orderList);
         when(orderBuyRepository.saveAll(anyList())).thenReturn(listAllOrder);
 
@@ -39,7 +39,7 @@ class CheckoutServiceTest {
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setOrderBuyRepository(orderBuyRepository);
         List<OrderBuy> listAllOrderTest = new ArrayList<>();
-        OrderBuy orderBuyTest = new OrderBuy("order-test-id", 11, 22, 33, 100, null);
+        OrderBuy orderBuyTest = new OrderBuy("order-test-id", 11, 22, 33, 100);
         listAllOrderTest.add(orderBuyTest);
         checkoutService.saveOrderBuy(listAllOrderTest);
 
@@ -51,7 +51,7 @@ class CheckoutServiceTest {
     @Test
     void getOrderById() {
         // Arrange
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 44, null);
+        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 44);
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderList);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));

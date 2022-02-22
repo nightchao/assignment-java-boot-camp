@@ -22,8 +22,8 @@ class OrderBuyRepositoryTest {
     void findByOrderId() {
         // Arrange
         List<OrderBuy> listOrder = new ArrayList<>(1);
-        OrderBuy order01 = new OrderBuy("order-test", 11, 22, 33, 44, null);
-        OrderBuy order02 = new OrderBuy("order-test", 11, 22, 33, 44, null);
+        OrderBuy order01 = new OrderBuy("order-test", 11, 22, 33, 44);
+        OrderBuy order02 = new OrderBuy("order-test", 11, 22, 33, 44);
         listOrder.add(order01);
         listOrder.add(order02);
         orderBuyRepository.saveAll(listOrder);

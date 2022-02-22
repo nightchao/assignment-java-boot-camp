@@ -4,8 +4,10 @@ import com.exception.OrderNotFoundException;
 import com.exception.PaymentNotFoundException;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
+import com.shopping.checkout.db.Summary;
 import com.shopping.checkout.repo.OrderBuyRepository;
 import com.shopping.checkout.repo.PaymentRepository;
+import com.shopping.checkout.repo.SummaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,9 @@ public class CheckoutService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private SummaryRepository summaryRepository;
 
     public void setOrderBuyRepository(OrderBuyRepository orderBuyRepository) {
         this.orderBuyRepository = orderBuyRepository;
@@ -55,5 +60,9 @@ public class CheckoutService {
         }
 
         return list;
+    }
+
+    public void saveSummary(Summary summary) {
+        this.summaryRepository.save(summary);
     }
 }

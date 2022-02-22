@@ -18,20 +18,18 @@ public class OrderBuy {
     private int quantity;
     private String name;
     private int price;
-    private Integer vat;
     private boolean isEms;
 
     public OrderBuy() {
 
     }
 
-    public OrderBuy(String orderId, int userId, int productId, int quantity, int price, Integer vat) {
+    public OrderBuy(String orderId, int userId, int productId, int quantity, int price) {
         this.orderId = orderId;
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
-        this.vat = vat;
     }
 
     public int getId() {
@@ -88,14 +86,6 @@ public class OrderBuy {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public Integer getVat() {
-        return vat;
-    }
-
-    public void setVat(Integer vat) {
-        this.vat = vat;
     }
 
     public boolean isEms() {

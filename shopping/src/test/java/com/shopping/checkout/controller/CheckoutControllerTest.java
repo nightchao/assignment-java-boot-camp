@@ -1,4 +1,4 @@
-package com.shopping.checkout.Controller;
+package com.shopping.checkout.controller;
 
 import com.exception.ExceptionModel;
 import com.shopping.checkout.db.OrderBuy;

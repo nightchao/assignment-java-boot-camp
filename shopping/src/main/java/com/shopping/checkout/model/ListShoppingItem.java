@@ -9,7 +9,6 @@ public class ListShoppingItem {
     private int quantity;
     private String name;
     private int price;
-    private Integer vat;
 
     public int getProductId() {
         return productId;
@@ -41,13 +40,5 @@ public class ListShoppingItem {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public Integer getVat() {
-        return vat;
-    }
-
-    public void setVat(Integer vat) {
-        this.vat = vat;
     }
 }

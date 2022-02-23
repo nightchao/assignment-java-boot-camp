@@ -1,6 +1,5 @@
-package com.shopping.checkout.controller;
+package com.exception;
 
-import com.exception.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class CheckoutControllerAdvice {
+public class ControllerExceptionHandler {
 
     private ExceptionModel getObjectMsg(String msg, HttpServletRequest req, HttpStatus httpStatus) {
         ExceptionModel exceptionData = new ExceptionModel();
@@ -26,6 +25,21 @@ public class CheckoutControllerAdvice {
         exceptionData.setPath(path);
         exceptionData.setTimestamp(new Date());
         return exceptionData;
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionModel handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpServletRequest req) {
+
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+
+        return getObjectMsg(String.join(",", errors), req, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
@@ -56,25 +70,31 @@ public class CheckoutControllerAdvice {
         return getObjectMsg(e.getMessage(), req, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionModel handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpServletRequest req) {
-
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-
-        return getObjectMsg(String.join(",", errors), req, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(SummaryNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionModel summaryNotFound(SummaryNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SearchNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel searchNotFound(SearchNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel productNotFound(ProductNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BasketItemNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel basketItemNotFound(BasketItemNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req, HttpStatus.NOT_FOUND);
     }
 }

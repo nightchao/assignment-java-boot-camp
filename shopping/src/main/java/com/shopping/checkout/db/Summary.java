@@ -70,22 +70,6 @@ public class Summary {
         this.expiredDate = expiredDate;
     }
 
-    public Boolean getReceiptVat() {
-        return isReceiptVat;
-    }
-
-    public void setReceiptVat(Boolean receiptVat) {
-        isReceiptVat = receiptVat;
-    }
-
-    public Boolean getGetNews() {
-        return isGetNews;
-    }
-
-    public void setGetNews(Boolean getNews) {
-        isGetNews = getNews;
-    }
-
     public String getPayee() {
         return payee;
     }

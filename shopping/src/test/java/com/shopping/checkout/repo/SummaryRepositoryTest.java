@@ -8,8 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Date;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class SummaryRepositoryTest {
@@ -36,12 +35,17 @@ class SummaryRepositoryTest {
         // Act
         Optional<Summary> result = summaryRepository.findById(summary.getInvoiceNo());
 
-        System.out.println(result.isPresent());
-
         // Assert
         assertTrue(result.isPresent());
+        assertEquals("order-test-id", result.get().getOrderId());
         assertEquals("test payer", result.get().getPayer());
+        assertNotNull(result.get().getTransactionDate());
+        assertNotNull(result.get().getExpiredDate());
+        assertEquals("test payee", result.get().getPayee());
+        assertEquals("test detail", result.get().getDetail());
         assertEquals(100, result.get().getAmount());
+        assertEquals(111, result.get().getPaymentMethodId());
+        assertTrue(result.get().getIsReceiptVat());
         assertTrue(result.get().getIsGetNews());
     }
 }

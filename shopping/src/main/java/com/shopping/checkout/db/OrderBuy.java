@@ -24,14 +24,6 @@ public class OrderBuy {
 
     }
 
-    public OrderBuy(String orderId, int userId, int productId, int quantity, int price) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
     public int getId() {
         return id;
     }

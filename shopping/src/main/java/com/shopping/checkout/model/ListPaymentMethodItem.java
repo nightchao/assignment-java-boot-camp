@@ -9,11 +9,6 @@ public class ListPaymentMethodItem {
 
     }
 
-    public ListPaymentMethodItem(int paymentMethodId, String name) {
-        this.paymentMethodId = paymentMethodId;
-        this.name = name;
-    }
-
     public int getPaymentMethodId() {
         return paymentMethodId;
     }

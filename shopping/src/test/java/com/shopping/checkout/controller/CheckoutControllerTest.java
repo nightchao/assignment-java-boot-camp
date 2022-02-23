@@ -52,9 +52,15 @@ class CheckoutControllerTest {
     private SummaryRepository summaryRepository;
 
     private void initDataOrderBuy(boolean isEms) {
-        OrderBuy orderBuy = new OrderBuy("order-test-id", 11, 22, 33, 100);
+        OrderBuy orderBuy = new OrderBuy();
+        orderBuy.setOrderId("order-test-id");
+        orderBuy.setUserId(11);
+        orderBuy.setProductId(22);
+        orderBuy.setQuantity(33);
+        orderBuy.setPrice(100);
         orderBuy.setName("test product");
         orderBuy.setEms(isEms);
+
         List<OrderBuy> listDb = new ArrayList<>(1);
         listDb.add(orderBuy);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));

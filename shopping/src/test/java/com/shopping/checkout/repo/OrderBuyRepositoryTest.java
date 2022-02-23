@@ -21,18 +21,35 @@ class OrderBuyRepositoryTest {
     @Test
     void findByOrderId() {
         // Arrange
+        OrderBuy order01 = new OrderBuy();
+        order01.setOrderId("order-test-id");
+        order01.setUserId(11);
+        order01.setProductId(22);
+        order01.setQuantity(33);
+        order01.setPrice(100);
+        order01.setName("test name 01");
+        order01.setEms(false);
+
+        OrderBuy order02 = new OrderBuy();
+        order02.setOrderId("order-test-id");
+        order02.setUserId(11);
+        order02.setProductId(22);
+        order02.setQuantity(33);
+        order02.setPrice(100);
+        order02.setName("test name 02");
+        order02.setEms(false);
+
         List<OrderBuy> listOrder = new ArrayList<>(1);
-        OrderBuy order01 = new OrderBuy("order-test", 11, 22, 33, 44);
-        OrderBuy order02 = new OrderBuy("order-test", 11, 22, 33, 44);
         listOrder.add(order01);
         listOrder.add(order02);
         orderBuyRepository.saveAll(listOrder);
 
         // Act
-        Optional<List<OrderBuy>> result = orderBuyRepository.findByOrderId("order-test");
+        Optional<List<OrderBuy>> result = orderBuyRepository.findByOrderId("order-test-id");
 
         // Assert
         assertTrue(result.isPresent());
         assertEquals(2, result.get().size());
+        assertEquals("order-test-id", result.get().get(0).getOrderId());
     }
 }

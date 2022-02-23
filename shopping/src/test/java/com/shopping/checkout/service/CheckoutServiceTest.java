@@ -39,15 +39,29 @@ class CheckoutServiceTest {
     void saveOrderBuy() {
         // Arrange
         List<OrderBuy> listAllOrder = new ArrayList<>();
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 100);
-        listAllOrder.add(orderList);
+        OrderBuy orderBuy = new OrderBuy();
+        orderBuy.setOrderId("order-test-id");
+        orderBuy.setUserId(11);
+        orderBuy.setProductId(22);
+        orderBuy.setQuantity(33);
+        orderBuy.setPrice(100);
+        orderBuy.setName("test name 01");
+        orderBuy.setEms(true);
+        listAllOrder.add(orderBuy);
         when(orderBuyRepository.saveAll(anyList())).thenReturn(listAllOrder);
 
         // Act
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setOrderBuyRepository(orderBuyRepository);
         List<OrderBuy> listAllOrderTest = new ArrayList<>();
-        OrderBuy orderBuyTest = new OrderBuy("order-test-id", 11, 22, 33, 100);
+        OrderBuy orderBuyTest = new OrderBuy();
+        orderBuyTest.setOrderId("order-test-id");
+        orderBuyTest.setUserId(11);
+        orderBuyTest.setProductId(22);
+        orderBuyTest.setQuantity(33);
+        orderBuyTest.setPrice(100);
+        orderBuyTest.setName("test name 01");
+        orderBuyTest.setEms(true);
         listAllOrderTest.add(orderBuyTest);
         checkoutService.saveOrderBuy(listAllOrderTest);
 
@@ -59,9 +73,18 @@ class CheckoutServiceTest {
     @Test
     void getOrderById() {
         // Arrange
-        OrderBuy orderList = new OrderBuy("order-test-id", 11, 22, 33, 44);
+        OrderBuy orderBuy = new OrderBuy();
+        orderBuy.setId(1);
+        orderBuy.setOrderId("order-test-id");
+        orderBuy.setUserId(11);
+        orderBuy.setProductId(22);
+        orderBuy.setQuantity(33);
+        orderBuy.setPrice(100);
+        orderBuy.setName("test name 01");
+        orderBuy.setEms(false);
+
         List<OrderBuy> listDb = new ArrayList<>(1);
-        listDb.add(orderList);
+        listDb.add(orderBuy);
         when(orderBuyRepository.findByOrderId("order-test-id")).thenReturn(Optional.of(listDb));
         when(orderBuyRepository.findByOrderId("order-test-id-e")).thenReturn(Optional.empty());
         when(orderBuyRepository.findByOrderId("order-test-id-f")).thenReturn(Optional.of(new ArrayList<>(1)));
@@ -74,7 +97,9 @@ class CheckoutServiceTest {
         Exception thrown02 = assertThrows(OrderNotFoundException.class, () -> checkoutService.getOrderById("order-test-id-f"));
 
         // Assert
+        assertFalse(result.isEmpty());
         assertEquals(1, result.size());
+        assertEquals(1, result.get(0).getId());
         assertTrue(thrown01.getMessage().contains("Order id:"));
         assertTrue(thrown02.getMessage().contains("Order id:"));
     }
@@ -84,7 +109,9 @@ class CheckoutServiceTest {
         // Arrange
         Payment payment01 = new Payment(1, "A Method");
         Payment payment02 = new Payment(2, "B Method");
-        Payment payment03 = new Payment(3, "C Method");
+        Payment payment03 = new Payment();
+        payment03.setPaymentId(3);
+        payment03.setName("C Method");
         List<Payment> listDb = new ArrayList<>(1);
         listDb.add(payment01);
         listDb.add(payment02);

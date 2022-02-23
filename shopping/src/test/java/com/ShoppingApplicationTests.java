@@ -8,6 +8,6 @@ class ShoppingApplicationTests {
 
     @Test
     void contextLoads() {
+        ShoppingApplication.main(new String[]{});
     }
-
 }

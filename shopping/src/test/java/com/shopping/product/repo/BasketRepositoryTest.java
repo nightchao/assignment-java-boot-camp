@@ -1,6 +1,7 @@
 package com.shopping.product.repo;
 
 import com.shopping.product.db.Basket;
+import com.shopping.product.db.BasketId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -8,8 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class BasketRepositoryTest {
@@ -20,10 +20,14 @@ class BasketRepositoryTest {
     @Test
     void findByUserId() {
         // Arrange
-        Basket basket = new Basket(11, 22);
+        BasketId id = new BasketId(11, 22);
+        Basket basket = new Basket();
+        basket.setUserId(id.getUserId());
+        basket.setProductId(id.getProductId());
         basket.setQuantity(1);
         basket.setSize(42);
         basket.setImage("https://image/1.jpg");
+        basket.setEms(false);
         basketRepository.save(basket);
 
         // Act
@@ -32,5 +36,6 @@ class BasketRepositoryTest {
         // Assert
         assertTrue(result.isPresent());
         assertEquals(1, result.get().size());
+        assertFalse(result.get().get(0).isEms());
     }
 }

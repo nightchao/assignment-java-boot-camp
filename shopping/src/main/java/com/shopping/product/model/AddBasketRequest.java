@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class AddBasketRequest {
 
     @NotNull(message = "userId is null")
-    private int userId;
+    private Integer userId;
 
     @NotNull(message = "productId is null")
     private Integer productId;
@@ -16,17 +16,15 @@ public class AddBasketRequest {
     private String image;
     private Integer size;
 
-    public AddBasketRequest(int userId, Integer productId, Integer quantity) {
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
+    public AddBasketRequest() {
+
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

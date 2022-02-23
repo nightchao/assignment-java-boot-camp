@@ -1,9 +1,10 @@
 package com.shopping.product.controller;
 
-import com.exception.*;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import com.exception.BasketItemNotFoundException;
+import com.exception.ExceptionModel;
+import com.exception.ProductNotFoundException;
+import com.exception.SearchNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ProductControllerAdvice {
@@ -42,32 +41,10 @@ public class ProductControllerAdvice {
         return getObjectMsg(e.getMessage(), req);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionModel handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpServletRequest req) {
-
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-
-        return getObjectMsg(String.join(",", errors), req);
-    }
-
     @ExceptionHandler(BasketItemNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionModel basketItemNotFound(BasketItemNotFoundException e, HttpServletRequest req) {
-        return getObjectMsg(e.getMessage(), req);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel userNotFound(UserNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 }

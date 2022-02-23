@@ -217,7 +217,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูลทดสอบวิธีการชำระเงินทั้งหมด แล้วได้รับ JSON Object error กรณีไม่มีข้อมูล")
+    @DisplayName("แสดงข้อมูลทดสอบวิธีการชำระเงินทั้งหมด แล้วได้รับ JSON Object error กรณี Payment method not found")
     void case09() {
         // Arrange
         when(paymentRepository.findAll()).thenReturn(new ArrayList<>(1));

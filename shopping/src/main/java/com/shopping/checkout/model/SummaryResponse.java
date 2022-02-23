@@ -3,10 +3,10 @@ package com.shopping.checkout.model;
 public class SummaryResponse {
 
     private int invoiceNo;
-    private String payee;
+    private String payer;
     private String transactionDate;
     private String expiredDate;
-    private String payer;
+    private String payee;
     private String detail;
     private int amount;
 

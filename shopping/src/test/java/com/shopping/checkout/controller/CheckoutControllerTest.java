@@ -73,7 +73,7 @@ class CheckoutControllerTest {
         when(userRepository.findById(11)).thenReturn(Optional.empty());
     }
 
-    private void initAddress() {
+    private void initDataAddress() {
         Address address = new Address(55, 11);
         address.setAddress("test address");
         when(addressRepository.findAddress(11)).thenReturn(Optional.of(address));
@@ -85,7 +85,7 @@ class CheckoutControllerTest {
         // Arrange
         initDataOrderBuy(false);
         initDataUser();
-        initAddress();
+        initDataAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -100,7 +100,7 @@ class CheckoutControllerTest {
         // Arrange
         initDataOrderBuy(true);
         initDataUser();
-        initAddress();
+        initDataAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -131,7 +131,7 @@ class CheckoutControllerTest {
         // Arrange
         initDataOrderBuy(false);
         initDataUser();
-        initAddress();
+        initDataAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -147,7 +147,7 @@ class CheckoutControllerTest {
         // Arrange
         initDataOrderBuy(false);
         initDataUser();
-        initAddress();
+        initDataAddress();
 
         // Act
         ShippingResponse result = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ShippingResponse.class);
@@ -162,7 +162,7 @@ class CheckoutControllerTest {
         // Arrange
         initDataOrderBuy(false);
         initDataUserCaseEmpty();
-        initAddress();
+        initDataAddress();
 
         // Act
         ExceptionModel exception = testRestTemplate.getForObject("/checkout/shipping/order-test-id", ExceptionModel.class);

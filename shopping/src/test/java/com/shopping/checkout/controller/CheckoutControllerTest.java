@@ -80,7 +80,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบธรรมดา")
+    @DisplayName("แสดงข้อมูลทดสอบ shipping กรณีจัดส่งแบบธรรมดา")
     void case01() {
         // Arrange
         initDataOrderBuy(false);
@@ -95,7 +95,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูล shipping กรณีจัดส่งแบบด่วน")
+    @DisplayName("แสดงข้อมูลทดสอบ shipping กรณีจัดส่งแบบด่วน")
     void case02() {
         // Arrange
         initDataOrderBuy(true);
@@ -110,7 +110,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูล shipping แล้วได้รับ JSON Object error กรณี Order id not found")
+    @DisplayName("แสดงข้อมูลทดสอบ shipping แล้วได้รับ JSON Object error กรณี Order id not found")
     void case03() {
         // Arrange
         initDataOrderBuyCaseEmpty();
@@ -126,7 +126,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูลสินค้าที่สั่งซื้อ โดยสั่ง orderId = order-test-id แล้วพบสินค้า 1 รายการ")
+    @DisplayName("แสดงข้อมูลทดสอบสินค้าที่สั่งซื้อ โดยสั่ง orderId = order-test-id แล้วพบสินค้า 1 รายการ")
     void case04() {
         // Arrange
         initDataOrderBuy(false);
@@ -142,7 +142,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้ผลลัพธ์โดย address = test address")
+    @DisplayName("ค้นหาข้อมูลทดสอบ ที่อยู่ โดยส่ง userId = 22 แล้วได้ผลลัพธ์โดย address = test address")
     void case05() {
         // Arrange
         initDataOrderBuy(false);
@@ -157,7 +157,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี User not found")
+    @DisplayName("ค้นหาข้อมูลทดสอบ ที่อยู่ โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี User not found")
     void case06() {
         // Arrange
         initDataOrderBuy(false);
@@ -175,7 +175,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาที่อยู่โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี Address not found")
+    @DisplayName("ค้นหาข้อมูลทดสอบ ที่อยู่ โดยส่ง userId = 22 แล้วได้รับ JSON Object error กรณี Address not found")
     void case07() {
         // Arrange
         initDataOrderBuy(false);
@@ -193,7 +193,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูลวิธีการชำระเงินทั้งหมด")
+    @DisplayName("แสดงข้อมูลทดสอบวิธีการชำระเงินทั้งหมด")
     void case08() {
         // Arrange
         Payment payment01 = new Payment(1, "A Method");
@@ -217,7 +217,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงข้อมูลวิธีการชำระเงินทั้งหมด แล้วได้รับ JSON Object error กรณีไม่มีข้อมูล")
+    @DisplayName("แสดงข้อมูลทดสอบวิธีการชำระเงินทั้งหมด แล้วได้รับ JSON Object error กรณีไม่มีข้อมูล")
     void case09() {
         // Arrange
         when(paymentRepository.findAll()).thenReturn(new ArrayList<>(1));
@@ -248,7 +248,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ message = Update Success")
+    @DisplayName("นำข้อมูลทดสอบสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ message = Update Success")
     void case10() {
         // Arrange
         initDataOrderBuy(false);
@@ -264,7 +264,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี Order not found")
+    @DisplayName("นำข้อมูลทดสอบสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี Order not found")
     void case11() {
         // Arrange
         initDataOrderBuyCaseEmpty();
@@ -281,7 +281,7 @@ class CheckoutControllerTest {
     }
 
     @Test
-    @DisplayName("นำข้อมูลสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี User not found")
+    @DisplayName("นำข้อมูลทดสอบสั่งซื้อสินค้าอัพเดทลงฐานข้อมูล แล้วได้รับ JSON Object error กรณี User not found")
     void case12() {
         // Arrange
         initDataOrderBuy(false);

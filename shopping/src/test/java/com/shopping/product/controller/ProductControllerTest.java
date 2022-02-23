@@ -41,7 +41,7 @@ class ProductControllerTest {
     private BasketRepository basketRepository;
 
     @Test
-    @DisplayName("ค้นหาข้อมูลโดยไม่ส่งคำค้นหา แล้วได้ผลการค้นหา 2 record")
+    @DisplayName("ค้นหาข้อมูลทดสอบโดยไม่ส่งคำค้นหา แล้วได้ผลการค้นหา 2 record")
     void case01() {
         // Arrange
         Product product01 = new Product(1, "test01");
@@ -59,7 +59,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า te แล้วได้ผลการค้นหา 1 record, list search มีข้อมูล และชื่อสินค้าต้องเท่ากับ Test 007")
+    @DisplayName("ค้นหาข้อมูลทดสอบโดยใช้คำว่า te แล้วได้ผลการค้นหา 1 record, list search มีข้อมูล และชื่อสินค้าต้องเท่ากับ Test 007")
     void case02() {
         // Arrange
         Product product01 = new Product(1, "Test 007");
@@ -77,7 +77,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ค้นหาข้อมูลโดยใช้คำว่า test แล้วได้รับ JSON Object error กรณี Search not found")
+    @DisplayName("ค้นหาข้อมูลทดสอบโดยใช้คำว่า test แล้วได้รับ JSON Object error กรณี Search not found")
     void case03() {
         // Arrange
         when(productRepository.findByNameContainingIgnoreCase("test")).thenReturn(Optional.empty());
@@ -93,7 +93,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 1 แล้วเจอสินค้าที่ชื่อว่า test product")
+    @DisplayName("ข้อมูลทดสอบรายละเอียดสินค้าโดยส่งตัวแปร productId = 1 แล้วเจอสินค้าที่ชื่อว่า test product")
     void case04() {
         // Arrange
         Product product = new Product(1, "test product");
@@ -107,7 +107,7 @@ class ProductControllerTest {
     }
 
     @Test()
-    @DisplayName("ข้อมูลรายละเอียดสินค้าโดยส่งตัวแปร productId = 2 แล้วได้รับ JSON Object error กรณี Product not found")
+    @DisplayName("ข้อมูลทดสอบรายละเอียดสินค้าโดยส่งตัวแปร productId = 2 แล้วได้รับ JSON Object error กรณี Product not found")
     void case05() {
         // Arrange
         when(productRepository.findById(2)).thenReturn(Optional.empty());
@@ -123,7 +123,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
+    @DisplayName("เพิ่มข้อมูลทดสอบสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ message = Update Success")
     void case06() {
         // Arrange
         ScmUser user = new ScmUser(11, "test fullName");
@@ -143,7 +143,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี User not found")
+    @DisplayName("เพิ่มข้อมูลทดสอบสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี User not found")
     void case07() {
         // Arrange
         when(userRepository.findById(11)).thenReturn(Optional.empty());
@@ -161,7 +161,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("เพิ่มสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
+    @DisplayName("เพิ่มข้อมูลทดสอบสินค้าลงตะกร้าโดยส่งตัวแปรดังนี้ userId = 11, productId = 22, quantity = 33 แล้วได้รับ JSON Object error กรณี Product not found")
     void case08() {
         // Arrange
         ScmUser user = new ScmUser(11, "test fullName");
@@ -182,7 +182,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("แสดงสินค้าลงตะกร้าโดยส่งตัวแปร userId = 11 แล้วผลลัพธ์มีสินค้าในตะกร้า 1 รายการ")
+    @DisplayName("แสดงข้อมูลทดสอบสินค้าลงตะกร้าโดยส่งตัวแปร userId = 11 แล้วผลลัพธ์มีสินค้าในตะกร้า 1 รายการ")
     void case09() {
         // Arrange
         List<Basket> listBasketItem = new ArrayList<>(1);
@@ -205,7 +205,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ทำการ checkout สินค้าโดยส่ง userId = 11 แล้วมีค่า orderId กลับมา")
+    @DisplayName("ทำการ checkout ข้อมูลทดสอบสินค้าโดยส่ง userId = 11 แล้วมีค่า orderId กลับมา")
     void case10() {
         // Arrange
         List<Basket> listBasketItem = new ArrayList<>(1);
@@ -231,7 +231,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("ทำการ checkout สินค้าโดยส่ง userId = 11 แล้วได้รับ JSON Object error กรณีไม่มีสินค้าในตะกร้า")
+    @DisplayName("ทำการ checkout ข้อมูลทดสอบสินค้าโดยส่ง userId = 11 แล้วได้รับ JSON Object error กรณีไม่มีสินค้าในตะกร้า")
     void case11() {
         // Arrange
         when(basketRepository.findByUserId(11)).thenReturn(Optional.empty());

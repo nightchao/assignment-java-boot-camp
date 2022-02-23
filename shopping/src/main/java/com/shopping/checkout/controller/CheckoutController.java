@@ -115,13 +115,13 @@ public class CheckoutController {
     }
 
     @PutMapping("/{orderId}")
-    public ConfirmOrderResponse updateOrder(@Valid @RequestBody ConfirmOrderRequest input) {
-        List<OrderBuy> orderBuys = checkoutService.getOrderById(input.getOrderId());
+    public ConfirmOrderResponse updateOrder(@PathVariable String orderId, @Valid @RequestBody ConfirmOrderRequest input) {
+        List<OrderBuy> orderBuys = checkoutService.getOrderById(orderId);
         int userId = orderBuys.get(0).getUserId();
         ScmUser user = userService.getUser(userId);
 
         Summary summary = new Summary();
-        summary.setOrderId(input.getOrderId());
+        summary.setOrderId(orderId);
         summary.setPayer(user.getFullName());
         Calendar calendar = Calendar.getInstance();
         summary.setTransactionDate(getDateTime(calendar, 0));

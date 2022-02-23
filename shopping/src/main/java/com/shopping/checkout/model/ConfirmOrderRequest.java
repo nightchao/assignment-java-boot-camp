@@ -4,9 +4,6 @@ import javax.validation.constraints.NotNull;
 
 public class ConfirmOrderRequest {
 
-    @NotNull(message = "orderId is null")
-    private String orderId;
-
     @NotNull(message = "paymentMethodId is null")
     private Integer paymentMethodId;
 
@@ -16,14 +13,6 @@ public class ConfirmOrderRequest {
 
     public ConfirmOrderRequest() {
 
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 
     public Integer getPaymentMethodId() {

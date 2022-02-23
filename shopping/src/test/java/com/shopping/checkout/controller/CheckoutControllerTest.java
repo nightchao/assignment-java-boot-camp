@@ -240,7 +240,6 @@ class CheckoutControllerTest {
 
     private ConfirmOrderRequest requestConfirmOrder() {
         ConfirmOrderRequest confirmOrderRequest = new ConfirmOrderRequest();
-        confirmOrderRequest.setOrderId("order-test-id");
         confirmOrderRequest.setPaymentMethodId(111);
         confirmOrderRequest.setIsReceiptVat(true);
         confirmOrderRequest.setIsGetNews(true);

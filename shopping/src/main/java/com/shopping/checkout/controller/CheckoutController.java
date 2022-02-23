@@ -126,7 +126,7 @@ public class CheckoutController {
         Calendar calendar = Calendar.getInstance();
         summary.setTransactionDate(getDateTime(calendar, 0));
         summary.setExpiredDate(getDateTime(calendar, 1));
-        summary.setPayee("องค์ Saladar");
+        summary.setPayee("องค์กร Saladar");
         summary.setDetail("Saladar");
         summary.setAmount(findAmount(orderBuys));
         summary.setPaymentMethodId(input.getPaymentMethodId());

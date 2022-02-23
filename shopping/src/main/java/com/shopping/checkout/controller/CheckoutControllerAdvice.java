@@ -52,7 +52,7 @@ public class CheckoutControllerAdvice {
     @ExceptionHandler(PaymentNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionModel userNotFound(PaymentNotFoundException e, HttpServletRequest req) {
+    public ExceptionModel paymentNotFound(PaymentNotFoundException e, HttpServletRequest req) {
         return getObjectMsg(e.getMessage(), req);
     }
 
@@ -69,5 +69,12 @@ public class CheckoutControllerAdvice {
                 .collect(Collectors.toList());
 
         return getObjectMsg(String.join(",", errors), req);
+    }
+
+    @ExceptionHandler(SummaryNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionModel summaryNotFound(SummaryNotFoundException e, HttpServletRequest req) {
+        return getObjectMsg(e.getMessage(), req);
     }
 }

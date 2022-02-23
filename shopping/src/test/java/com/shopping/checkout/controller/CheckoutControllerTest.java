@@ -3,10 +3,8 @@ package com.shopping.checkout.controller;
 import com.exception.ExceptionModel;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
-import com.shopping.checkout.model.ConfirmOrderRequest;
-import com.shopping.checkout.model.ConfirmOrderResponse;
-import com.shopping.checkout.model.PaymentMethodResponse;
-import com.shopping.checkout.model.ShippingResponse;
+import com.shopping.checkout.db.Summary;
+import com.shopping.checkout.model.*;
 import com.shopping.checkout.repo.OrderBuyRepository;
 import com.shopping.checkout.repo.PaymentRepository;
 import com.shopping.checkout.repo.SummaryRepository;
@@ -23,6 +21,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -297,5 +296,48 @@ class CheckoutControllerTest {
         String actualMessage = exception.getBody().getMessage();
         assertEquals(expectedMessage, actualMessage);
         assertThat(exception.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    @DisplayName("แสดงข้อมูลทดสอบ Summary โดยส่ง invoiceNo = 1 แล้วมีผลลัพธ์กลับมา")
+    void case13() {
+        // Arrange
+        Summary summary = new Summary();
+        summary.setInvoiceNo(1);
+        summary.setOrderId("order-test-id");
+        summary.setPayer("test payer");
+        summary.setTransactionDate(new Date());
+        summary.setExpiredDate(new Date());
+        summary.setPayee("test payee");
+        summary.setDetail("test detail");
+        summary.setAmount(100);
+        summary.setPaymentMethodId(111);
+        summary.setIsReceiptVat(true);
+        summary.setIsGetNews(true);
+        when(summaryRepository.findById(1)).thenReturn(Optional.of(summary));
+
+        // Act
+        SummaryResponse result = testRestTemplate.getForObject("/checkout/summary/1", SummaryResponse.class);
+
+        // Assert
+        assertNotNull(summary);
+        assertEquals("test payer", result.getPayer());
+        assertEquals(100, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("แสดงข้อมูลทดสอบ Summary โดยส่ง invoiceNo = 1 แล้วได้รับ JSON Object error กรณี Summary not found")
+    void case14() {
+        // Arrange
+        when(summaryRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act
+        ExceptionModel exception = testRestTemplate.getForObject("/checkout/summary/1", ExceptionModel.class);
+
+        // Assert
+        String expectedMessage = "Summary: 1 not found";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+        assertThat(exception.getStatus(), equalTo(HttpStatus.NOT_FOUND.value()));
     }
 }

@@ -2,6 +2,7 @@ package com.shopping.checkout.service;
 
 import com.exception.OrderNotFoundException;
 import com.exception.PaymentNotFoundException;
+import com.exception.SummaryNotFoundException;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
 import com.shopping.checkout.db.Summary;
@@ -113,10 +114,8 @@ class CheckoutServiceTest {
         assertTrue(thrown.getMessage().contains("Payment method not found"));
     }
 
-    @Test
-    void saveSummary() {
-        // Arrange
-        Summary summary = new Summary();
+    private void initDataSummary(Summary summary) {
+        summary.setInvoiceNo(1);
         summary.setOrderId("order-test-id");
         summary.setPayer("test payer");
         summary.setTransactionDate(new Date());
@@ -127,12 +126,20 @@ class CheckoutServiceTest {
         summary.setPaymentMethodId(111);
         summary.setIsReceiptVat(true);
         summary.setIsGetNews(true);
+    }
+
+    @Test
+    void saveSummary() {
+        // Arrange
+        Summary summary = new Summary();
+        initDataSummary(summary);
         when(summaryRepository.save(any(Summary.class))).thenReturn(summary);
 
         // Act
         CheckoutService checkoutService = new CheckoutService();
         checkoutService.setSummaryRepository(summaryRepository);
         Summary summaryTest = new Summary();
+        summaryTest.setInvoiceNo(1);
         summaryTest.setOrderId("order-test-id");
         summaryTest.setPayer("test payer");
         summaryTest.setTransactionDate(new Date());
@@ -147,8 +154,31 @@ class CheckoutServiceTest {
 
         // Assert
         assertNotNull(summaryTest);
+        assertEquals(1, summary.getInvoiceNo());
         assertEquals("test payer", summaryTest.getPayer());
         assertEquals(111, summaryTest.getPaymentMethodId());
         assertTrue(summaryTest.getIsGetNews());
+    }
+
+    @Test
+    void getSummary() {
+        // Arrange
+        Summary summary = new Summary();
+        initDataSummary(summary);
+        when(summaryRepository.findById(1)).thenReturn(Optional.of(summary));
+        when(summaryRepository.findById(2)).thenReturn(Optional.empty());
+
+        // Act
+        CheckoutService checkoutService = new CheckoutService();
+        checkoutService.setSummaryRepository(summaryRepository);
+        Summary result = checkoutService.getSummary(1);
+        Exception thrown = assertThrows(SummaryNotFoundException.class, () -> checkoutService.getSummary(2));
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("test payer", result.getPayer());
+        assertEquals(111, result.getPaymentMethodId());
+        assertTrue(result.getIsGetNews());
+        assertTrue(thrown.getMessage().contains("Summary:"));
     }
 }

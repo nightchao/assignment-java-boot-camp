@@ -62,6 +62,6 @@
 
 ## 9. แสดงใบแจ้งการชำระเงิน
 
-| Method | Url                         | Description  | Sample Valid Request Body | Sample Valid Response Body                                                                         |
-|--------|-----------------------------|--------------|---------------------------|----------------------------------------------------------------------------------------------------|
-| GET    | /checkout/summary/{orderId} | show summary | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-summary) |
+| Method | Url                           | Description  | Sample Valid Request Body | Sample Valid Response Body                                                                         |
+|--------|-------------------------------|--------------|---------------------------|----------------------------------------------------------------------------------------------------|
+| GET    | /checkout/summary/{invoiceNo} | show summary | -                         | [JSON](https://github.com/nightchao/assignment-java-boot-camp/wiki/JSON-Response-for-show-summary) |

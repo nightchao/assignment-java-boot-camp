@@ -2,6 +2,7 @@ package com.shopping.checkout.service;
 
 import com.exception.OrderNotFoundException;
 import com.exception.PaymentNotFoundException;
+import com.exception.SummaryNotFoundException;
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.db.Payment;
 import com.shopping.checkout.db.Summary;
@@ -68,5 +69,14 @@ public class CheckoutService {
 
     public void saveSummary(Summary summary) {
         this.summaryRepository.save(summary);
+    }
+
+    public Summary getSummary(int invoiceNo) {
+        Optional<Summary> summary = summaryRepository.findById(invoiceNo);
+        if (summary.isPresent()) {
+            return summary.get();
+        }
+
+        throw new SummaryNotFoundException(invoiceNo);
     }
 }

@@ -64,9 +64,7 @@ public class CheckoutController {
             calendar.add(Calendar.DAY_OF_YEAR, 7);
         }
 
-        Date deliveryDate = calendar.getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
-        return simpleDateFormat.format(deliveryDate);
+        return getDateTimeStr(calendar.getTime(), "dd/MM/yyyy");
     }
 
     private void getShoppingItem(ShippingResponse response, List<OrderBuy> orderBuys) {
@@ -135,7 +133,7 @@ public class CheckoutController {
         summary.setIsGetNews(input.getIsGetNews());
         summary.setIsReceiptVat(input.getIsReceiptVat());
         checkoutService.saveSummary(summary);
-        return new ConfirmOrderResponse(summary.getInvoiceNo(),"Update Success");
+        return new ConfirmOrderResponse(summary.getInvoiceNo(), "Update Success");
     }
 
     private Date getDateTime(Calendar calendar, int day) {
@@ -150,5 +148,25 @@ public class CheckoutController {
         }
 
         return total;
+    }
+
+    @GetMapping("/summary/{invoiceNo}")
+    public SummaryResponse getSummaryDetail(@PathVariable Integer invoiceNo) {
+        Summary summary = checkoutService.getSummary(invoiceNo);
+
+        SummaryResponse response = new SummaryResponse();
+        response.setInvoiceNo(summary.getInvoiceNo());
+        response.setPayer(summary.getPayer());
+        response.setTransactionDate(getDateTimeStr(summary.getTransactionDate(), "dd/MM/yyyy HH:mm"));
+        response.setExpiredDate(getDateTimeStr(summary.getExpiredDate(), "dd/MM/yyyy HH:mm"));
+        response.setPayee(summary.getPayee());
+        response.setDetail(summary.getDetail());
+        response.setAmount(summary.getAmount());
+        return response;
+    }
+
+    private String getDateTimeStr(Date date, String formatDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
+        return simpleDateFormat.format(date);
     }
 }

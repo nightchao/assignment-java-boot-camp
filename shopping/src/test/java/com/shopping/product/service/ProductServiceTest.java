@@ -100,16 +100,20 @@ class ProductServiceTest {
         List<Basket> listDb = new ArrayList<>(1);
         listDb.add(basket);
         when(basketRepository.findByUserId(11)).thenReturn(Optional.of(listDb));
+        when(basketRepository.findByUserId(22)).thenReturn(Optional.empty());
+        when(basketRepository.findByUserId(33)).thenReturn(Optional.of(new ArrayList<>(1)));
 
         // Act
         ProductService productService = new ProductService();
         productService.setBasketRepository(basketRepository);
         List<Basket> result = productService.getProductInBasket(11);
-        Exception thrown = assertThrows(BasketItemNotFoundException.class, () -> productService.getProductInBasket(22));
+        Exception thrown01 = assertThrows(BasketItemNotFoundException.class, () -> productService.getProductInBasket(22));
+        Exception thrown02 = assertThrows(BasketItemNotFoundException.class, () -> productService.getProductInBasket(33));
 
 
         // Assert
         assertEquals(1, result.size());
-        assertTrue(thrown.getMessage().contains("Product in basket not found userId:"));
+        assertTrue(thrown01.getMessage().contains("Product in basket not found userId:"));
+        assertTrue(thrown02.getMessage().contains("Product in basket not found userId:"));
     }
 }

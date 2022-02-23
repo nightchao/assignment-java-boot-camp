@@ -54,10 +54,14 @@ public class ProductService {
 
     public List<Basket> getProductInBasket(int userId) {
         Optional<List<Basket>> list = basketRepository.findByUserId(userId);
-        if (list.isPresent()) {
-            return list.get();
+        if (!list.isPresent()) {
+            throw new BasketItemNotFoundException(userId);
         }
 
-        throw new BasketItemNotFoundException(userId);
+        List<Basket> listBasketItem = list.get();
+        if (listBasketItem.isEmpty()) {
+            throw new BasketItemNotFoundException(userId);
+        }
+        return listBasketItem;
     }
 }

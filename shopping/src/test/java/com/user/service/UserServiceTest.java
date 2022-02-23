@@ -46,7 +46,9 @@ class UserServiceTest {
     @Test
     void getAddress() {
         // Arrange
-        Address address = new Address(11, 22);
+        Address address = new Address();
+        address.setAddressId(11);
+        address.setUserId(22);
         address.setAddress("test address");
         address.setDefault(1);
         when(addressRepository.findAddress(22)).thenReturn(Optional.of(address));
@@ -60,6 +62,7 @@ class UserServiceTest {
 
         // Assert
         assertEquals("test address", result01.getAddress());
+        assertEquals(1, result01.isDefault());
         assertTrue(thrown.getMessage().contains("Address not found userId:"));
     }
 }

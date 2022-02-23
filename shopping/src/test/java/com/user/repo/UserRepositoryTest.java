@@ -20,6 +20,7 @@ class UserRepositoryTest {
     void findById() {
         // Arrange
         ScmUser user = new ScmUser(1, "test fullName");
+        user.setEmail("abc@xyz.com");
         userRepository.save(user);
 
         // Act
@@ -28,5 +29,6 @@ class UserRepositoryTest {
         // Assert
         assertTrue(result01.isPresent());
         assertEquals("test fullName", result01.get().getFullName());
+        assertEquals("abc@xyz.com", result01.get().getEmail());
     }
 }

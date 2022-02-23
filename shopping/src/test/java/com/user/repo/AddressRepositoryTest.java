@@ -1,6 +1,7 @@
 package com.user.repo;
 
 import com.user.db.Address;
+import com.user.db.AddressId;
 import com.user.db.ScmUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,12 @@ class AddressRepositoryTest {
     @Test
     void findAddress() {
         // Arrange
-        Address address = new Address(11, 22);
+        AddressId id = new AddressId(11, 22);
+        Address address = new Address(id.getAddressId(), id.getUserId());
         address.setAddress("test address");
+        address.setDistrict("test district");
+        address.setProvince("test province");
+        address.setTelephone("test telephone");
         address.setDefault(1);
         addressRepository.save(address);
 
@@ -37,6 +42,11 @@ class AddressRepositoryTest {
 
         // Assert
         assertTrue(result.isPresent());
+        assertEquals(11, result.get().getAddressId());
+        assertEquals(22, result.get().getUserId());
         assertEquals("test address", result.get().getAddress());
+        assertEquals("test district", result.get().getDistrict());
+        assertEquals("test province", result.get().getProvince());
+        assertEquals("test telephone", result.get().getTelephone());
     }
 }

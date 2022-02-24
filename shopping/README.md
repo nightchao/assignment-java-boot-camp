@@ -1,5 +1,7 @@
 # Flow การสั่งซื้อสินค้า Online จากร้าน SALADAR ในกรณี Login เข้าระบบมาแล้ว
 
+## [Postman สำหรับทดสอบตาม flow](https://www.getpostman.com/collections/435ef17e2ae942e8d5b2)
+
 กำหนด userId ใน flow นี้คือ 65001
 
 ## 1. ค้นหาสินค้า โดยกำหนดให้ค้นคำว่า Chalawan จากนั้นระบบจะแสดงสินค้าที่ค้นหาเจอ

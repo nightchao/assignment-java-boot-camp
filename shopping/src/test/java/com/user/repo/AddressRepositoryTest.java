@@ -9,8 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class AddressRepositoryTest {
@@ -48,5 +47,17 @@ class AddressRepositoryTest {
         assertEquals("test district", result.get().getDistrict());
         assertEquals("test province", result.get().getProvince());
         assertEquals("test telephone", result.get().getTelephone());
+    }
+
+    @Test
+    public void testEqualsSymmetric() {
+        AddressId a = new AddressId(555, 777);
+        AddressId b = new AddressId(555, 777);
+
+        assertNotSame(a, b);
+        boolean checkEquals = a.equals(b) && b.equals(a);
+        assertTrue(checkEquals);
+        boolean checkHashCode = a.hashCode() == b.hashCode();
+        assertTrue(checkHashCode);
     }
 }

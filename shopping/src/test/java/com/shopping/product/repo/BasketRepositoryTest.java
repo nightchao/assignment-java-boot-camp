@@ -38,4 +38,16 @@ class BasketRepositoryTest {
         assertEquals(1, result.get().size());
         assertFalse(result.get().get(0).isEms());
     }
+
+    @Test
+    public void testEqualsSymmetric() {
+        BasketId a = new BasketId(555, 777);
+        BasketId b = new BasketId(555, 777);
+
+        assertNotSame(a, b);
+        boolean checkEquals = a.equals(b) && b.equals(a);
+        assertTrue(checkEquals);
+        boolean checkHashCode = a.hashCode() == b.hashCode();
+        assertTrue(checkHashCode);
+    }
 }

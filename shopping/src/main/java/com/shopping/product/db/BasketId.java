@@ -1,6 +1,7 @@
 package com.shopping.product.db;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class BasketId implements Serializable {
 
@@ -30,5 +31,18 @@ public class BasketId implements Serializable {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BasketId basketId = (BasketId) o;
+        return userId == basketId.userId && productId == basketId.productId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, productId);
     }
 }

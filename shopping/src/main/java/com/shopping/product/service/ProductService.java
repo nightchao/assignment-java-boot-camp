@@ -64,4 +64,13 @@ public class ProductService {
         }
         return listBasketItem;
     }
+
+    public int priceFinal(int price, int discount, Integer vat) {
+        int finalPrice = price * (100 - discount) / 100;
+
+        if (vat != null) {
+            finalPrice = finalPrice * (vat / 100);
+        }
+        return finalPrice;
+    }
 }

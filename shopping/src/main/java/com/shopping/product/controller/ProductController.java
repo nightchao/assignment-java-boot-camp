@@ -170,7 +170,7 @@ public class ProductController {
             orderBuy.setUserId(input.getUserId());
             orderBuy.setProductId(item.getProductId());
             orderBuy.setQuantity(item.getQuantity());
-            orderBuy.setPrice(priceFinal(item.getPrice(), item.getDiscount(), item.getVat()));
+            orderBuy.setPrice(productService.priceFinal(item.getPrice(), item.getDiscount(), item.getVat()));
             orderBuy.setName(item.getName());
             orderBuy.setEms(item.isEms());
             listAllOrder.add(orderBuy);
@@ -178,14 +178,5 @@ public class ProductController {
 
         checkoutService.saveOrderBuy(listAllOrder);
         return new CheckOutResponse("Update Success", orderId);
-    }
-
-    private int priceFinal(int price, int discount, Integer vat) {
-        int finalPrice = price * (100 - discount) / 100;
-
-        if (vat != null) {
-            finalPrice = finalPrice * (vat / 100);
-        }
-        return finalPrice;
     }
 }

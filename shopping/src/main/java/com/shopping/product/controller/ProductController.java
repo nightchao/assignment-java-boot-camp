@@ -9,6 +9,7 @@ import com.shopping.product.service.ProductService;
 import com.user.db.ScmUser;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -108,6 +109,7 @@ public class ProductController {
     }
 
     @PostMapping("/basket")
+    @ResponseStatus(HttpStatus.CREATED)
     public AddBasketResponse addProductToBasket(@Valid @RequestBody() AddBasketRequest input) {
         ScmUser user = userService.getUser(input.getUserId());
         Product product = productService.getProduct(input.getProductId());
@@ -157,6 +159,7 @@ public class ProductController {
     }
 
     @PostMapping("/basket/checkout")
+    @ResponseStatus(HttpStatus.CREATED)
     public CheckOutResponse checkOutBasket(@Valid @RequestBody() CheckOutRequest input) {
         List<ListBasketItem> listBasket = getListBasketItem(input.getUserId());
 

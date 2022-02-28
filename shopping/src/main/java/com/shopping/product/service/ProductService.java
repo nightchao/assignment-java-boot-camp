@@ -66,11 +66,12 @@ public class ProductService {
     }
 
     public int priceFinal(int price, int discount, Integer vat) {
-        int finalPrice = price * (100 - discount) / 100;
+        int sale = price * (100 - discount) / 100;
 
         if (vat != null) {
-            finalPrice = finalPrice * (vat / 100);
+            int vatValue = sale * vat / 100;
+            return sale + vatValue;
         }
-        return finalPrice;
+        return sale;
     }
 }

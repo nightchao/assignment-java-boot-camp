@@ -116,4 +116,21 @@ class ProductServiceTest {
         assertTrue(thrown01.getMessage().contains("Product in basket not found userId:"));
         assertTrue(thrown02.getMessage().contains("Product in basket not found userId:"));
     }
+
+    @Test
+    void priceFinal() {
+        // Arrange
+        int price = 10000;
+        int discount = 10;
+        Integer vat = 7;
+
+        // Act
+        ProductService productService = new ProductService();
+        int result01 = productService.priceFinal(price, discount, vat);
+        int result02 = productService.priceFinal(price, discount, null);
+
+        // Assert
+        assertEquals(9630, result01);
+        assertEquals(9000, result02);
+    }
 }

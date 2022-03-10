@@ -1,6 +1,6 @@
 package com.shopping.product.repo;
 
-import com.shopping.product.db.Basket;
+import com.shopping.product.entity.Basket;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

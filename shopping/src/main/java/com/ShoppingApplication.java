@@ -2,7 +2,7 @@ package com;
 
 import com.shopping.checkout.db.Payment;
 import com.shopping.checkout.repo.PaymentRepository;
-import com.shopping.product.db.Product;
+import com.shopping.product.entity.Product;
 import com.shopping.product.repo.ProductRepository;
 import com.user.db.Address;
 import com.user.db.ScmUser;

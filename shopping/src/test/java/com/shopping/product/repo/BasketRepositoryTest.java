@@ -1,7 +1,7 @@
 package com.shopping.product.repo;
 
-import com.shopping.product.db.Basket;
-import com.shopping.product.db.BasketId;
+import com.shopping.product.entity.Basket;
+import com.shopping.product.entity.BasketId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

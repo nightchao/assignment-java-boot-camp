@@ -2,8 +2,8 @@ package com.shopping.product.controller;
 
 import com.shopping.checkout.db.OrderBuy;
 import com.shopping.checkout.service.CheckoutService;
-import com.shopping.product.db.Basket;
-import com.shopping.product.db.Product;
+import com.shopping.product.entity.Basket;
+import com.shopping.product.entity.Product;
 import com.shopping.product.model.*;
 import com.shopping.product.service.ProductService;
 import com.user.db.ScmUser;

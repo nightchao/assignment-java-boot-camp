@@ -1,7 +1,7 @@
 package com.shopping.product.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.shopping.product.db.Product;
+import com.shopping.product.entity.Product;
 
 import java.util.List;
 

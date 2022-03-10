@@ -1,4 +1,4 @@
-package com.shopping.product.db;
+package com.shopping.product.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

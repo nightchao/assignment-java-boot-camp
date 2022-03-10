@@ -1,8 +1,8 @@
 package com.shopping.product.controller;
 
 import com.exception.ExceptionModel;
-import com.shopping.product.db.Basket;
-import com.shopping.product.db.Product;
+import com.shopping.product.entity.Basket;
+import com.shopping.product.entity.Product;
 import com.shopping.product.model.*;
 import com.shopping.product.repo.BasketRepository;
 import com.shopping.product.repo.ProductRepository;

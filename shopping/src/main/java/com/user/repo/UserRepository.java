@@ -1,6 +1,6 @@
 package com.user.repo;
 
-import com.user.db.ScmUser;
+import com.user.entity.ScmUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

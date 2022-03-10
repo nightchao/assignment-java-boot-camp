@@ -1,4 +1,4 @@
-package com.user.db;
+package com.user.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -6,7 +6,7 @@ import com.shopping.product.entity.Product;
 import com.shopping.product.model.*;
 import com.shopping.product.repo.BasketRepository;
 import com.shopping.product.repo.ProductRepository;
-import com.user.db.ScmUser;
+import com.user.entity.ScmUser;
 import com.user.repo.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

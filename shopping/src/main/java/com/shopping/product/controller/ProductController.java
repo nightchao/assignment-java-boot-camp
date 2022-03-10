@@ -6,7 +6,7 @@ import com.shopping.product.entity.Basket;
 import com.shopping.product.entity.Product;
 import com.shopping.product.model.*;
 import com.shopping.product.service.ProductService;
-import com.user.db.ScmUser;
+import com.user.entity.ScmUser;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.user.repo;
 
-import com.user.db.ScmUser;
+import com.user.entity.ScmUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -2,8 +2,8 @@ package com.user.service;
 
 import com.exception.AddressNotFoundException;
 import com.exception.UserNotFoundException;
-import com.user.db.Address;
-import com.user.db.ScmUser;
+import com.user.entity.Address;
+import com.user.entity.ScmUser;
 import com.user.repo.AddressRepository;
 import com.user.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

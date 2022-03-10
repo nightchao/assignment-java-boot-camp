@@ -1,7 +1,7 @@
 package com.shopping.checkout.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.user.db.Address;
+import com.user.entity.Address;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserAddress extends Address {

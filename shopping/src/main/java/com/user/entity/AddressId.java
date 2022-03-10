@@ -1,4 +1,4 @@
-package com.user.db;
+package com.user.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

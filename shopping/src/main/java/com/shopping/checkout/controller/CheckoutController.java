@@ -166,7 +166,7 @@ public class CheckoutController {
     }
 
     private String getDateTimeStr(Date date, String formatDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.UK);
         return simpleDateFormat.format(date);
     }
 }
